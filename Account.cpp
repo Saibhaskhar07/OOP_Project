@@ -1,42 +1,28 @@
-#include <iostream>
-#include "Account.h" 
-using namespace std ;
+#include "Account.h"
 
-Account::Account()
-{
-    this->name = " " ;
-    this->email = " " ;
-    this->age = 0 ;
-    this->accNo = 0 ; 
-    this->transactions = " " ; 
+Account::Account(const std::string& name, const std::string& email, int age)
+    : name(name), email(email), age(age), accNo(0), balance(0) {}
+
+void Account::set_name(const std::string& Name) {
+    name = Name;
 }
 
-void Account::set_name(string Name)
-{
-    this->name = Name ;
+void Account::set_email(const std::string& Email) {
+    email = Email;
 }
 
-void Account::set_email(string Email)
-{
-    this->email = Email ;
+void Account::set_age(int Age) {
+    age = Age;
 }
 
-void Account::set_age(int Age)
-{
-    this->age = Age ;
+std::string Account::get_name() const {
+    return name;
 }
 
-string Account::get_name()
-{
-    return this->name ;
+std::string Account::get_email() const {
+    return email;
 }
 
-string Account::get_email()
-{
-    return this->email ;
-}
-
-int Account::get_age()
-{
-    return this->age ;
+int Account::get_age() const {
+    return age;
 }

@@ -1,31 +1,28 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
-#include <iostream> 
+
 #include <string>
-using namespace std ;
+#include <iostream>
 
+class Account {
+protected:
+    std::string name;
+    std::string email;
+    int age;
+    long int accNo;
+    int balance;
 
-class Account{
-    // Attributes required for account creation
-    protected :
-        string name ;
-        string email ;
-        int age ;
-        long int accNo ;
-        string transactions ;
+public:
+    Account(const std::string& name = "", const std::string& email = "", int age = 0);
+    virtual void type(const std::string& p) = 0;
+    virtual void displayAccountDetails() const = 0;
 
-    public : 
-        Account() ; 
-        // work on paramaterized constructor ! 
-        void set_name(string Name) ;
-        void set_email(string Email) ;
-        void set_age(int Age) ;
-        string get_name() ;
-        string get_email() ; 
-        int get_age() ; 
+    void set_name(const std::string& Name);
+    void set_email(const std::string& Email);
+    void set_age(int Age);
+    std::string get_name() const;
+    std::string get_email() const;
+    int get_age() const;
+};
 
-
-
-
-} ;
 #endif
