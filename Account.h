@@ -27,5 +27,4 @@ public:
     string get_email();
     int get_age();
 };
-
 #endif // End of header guard
