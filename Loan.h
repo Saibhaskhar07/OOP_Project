@@ -2,25 +2,28 @@
 #define LOAN_H
 
 #include "Account.h"
-#include <cmath> // For pow function
+#include <cmath>
+using namespace std;
 
 class Loan : public Account {
 protected:
-    std::string Loan_type;
+    string Loan_type;
     double required_amount;
     int tenure;
     double interest;
+    double EMI;
 
 public:
-     
-    // In Loan.h
-    Loan(const std::string& type) : Loan_type(type), Account() { }  // Assuming Account has a default constructor
-
     void applyForLoan();
+    void type(const string& p);
     double calculateMonthlyInstallments(double principal, double monthlyInterestRate, int tenureMonths);
-    void submitDocumentation(const std::string& ans);
+    virtual void displayDocuments() const = 0;
+    void submitDocumentation(const string& ans);
 
-    void type(const std::string& p) override;
+    void set_tenure(int months);
+    void set_required_amount(double value);
+    int get_tenure() const;
+    double get_required_amount() const;
 };
 
 #endif

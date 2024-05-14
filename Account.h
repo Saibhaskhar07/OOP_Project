@@ -3,25 +3,26 @@
 
 #include <string>
 #include <iostream>
+using namespace std;
 
 class Account {
 protected:
-    std::string name;
-    std::string email;
+    string name;
+    string email;
     int age;
     long int accNo;
     int balance;
 
 public:
-    Account(const std::string& name = "", const std::string& email = "", int age = 0);
-    virtual void type(const std::string& p) = 0;
+    Account(const string& name = "", const string& email = "", int age = 0);
+    virtual void type(const string& p) = 0;
     virtual void displayAccountDetails() const = 0;
 
-    void set_name(const std::string& Name);
-    void set_email(const std::string& Email);
+    void set_name(const string& Name);
+    void set_email(const string& Email);
     void set_age(int Age);
-    std::string get_name() const;
-    std::string get_email() const;
+    string get_name() const;
+    string get_email() const;
     int get_age() const;
 };
 
