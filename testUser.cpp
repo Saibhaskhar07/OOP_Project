@@ -70,7 +70,7 @@ int main() {
     std::cout << "Welcome to BankEasy!\n";
 
     Accounts accounts;
-    Admin admin("Admin", "admin@example.com", "adminpass");
+    Admin admin("Admin", "admin@bankeasy.com", "adminpass");
     int choice;
 
     do {
