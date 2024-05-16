@@ -3,17 +3,16 @@
 
 #include <string>
 #include <iostream>
-#include <fstream> // Include for file handling
+#include <fstream>
 
 class User {
 public:
-    User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, const std::string& extraInfo);
+    User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType);
     std::string getName() const;
     std::string getEmail() const;
     std::string getPin() const;
-    std::string getAccountType() const;
-    std::string getExtraInfo() const;
     double getBalance() const;
+    std::string getAccountType() const;
     void deposit(double amount);
     void withdraw(double amount);
     void save(std::ofstream& out) const;
@@ -23,9 +22,8 @@ private:
     std::string name;
     std::string email;
     std::string pin;
-    std::string accountType;
-    std::string extraInfo;
     double balance;
+    std::string accountType;
 };
 
 #endif // USER_H

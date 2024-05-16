@@ -18,10 +18,14 @@ bool Admin::authenticate(const std::string& adminPassword) const {
 }
 
 void Admin::viewAllUsers(const std::vector<User>& users) const {
-    for (const User& user : users) {
-        std::cout << "Name: " << user.getName() << ", Email: " << user.getEmail() 
-                  << ", Account Type: " << user.getAccountType() << ", Balance: $" << user.getBalance() << std::endl << std::endl;
+    if (users.empty()) {
+        std::cout << "No users available.\n\n";
+        return;
     }
+    for (const User& user : users) {
+        std::cout << "Name: " << user.getName() << ", Email: " << user.getEmail() << ", Balance: $" << user.getBalance() << ", Account Type: " << user.getAccountType() << "\n";
+    }
+    std::cout << "\n";
 }
 
 void Admin::deleteUser(std::vector<User>& users, const std::string& email) {
@@ -31,8 +35,8 @@ void Admin::deleteUser(std::vector<User>& users, const std::string& email) {
         });
     if (it != users.end()) {
         users.erase(it, users.end());
-        std::cout << "User deleted successfully.\n" << std::endl;
+        std::cout << "User deleted successfully.\n\n";
     } else {
-        std::cout << "User not found.\n" << std::endl;
+        std::cout << "User not found.\n\n";
     }
 }

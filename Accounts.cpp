@@ -11,7 +11,7 @@ Accounts::~Accounts() {
 
 void Accounts::addUser(const User& user) {
     users.push_back(user);
-    std::cout << "Account created successfully.\n" << std::endl;
+    std::cout << "Account created successfully.\n\n";
 }
 
 User* Accounts::login(const std::string& email, const std::string& pin) {
