@@ -2,6 +2,7 @@
 #include "Accounts.h"
 #include "Admin.h"
 
+
 void addUserInput(Accounts& accounts) {
     std::string name, email, pin;
     std::cout << "Enter name: ";
@@ -126,3 +127,4 @@ int main() {
     std::cout << "Thank you for banking with BankEasy!\n";
     return 0;
 }
+
