@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Accounts.h"
+using namespace std;
 
 void addUserInput(Accounts& accounts) {
     std::string name, email, pin;
@@ -48,7 +49,12 @@ int main() {
 
     do {
         std::cout << "1. Sign Up\n2. Log In\n3. Exit\nChoose an option: ";
-        std::cin >> choice;
+        if (!(cin>>choice)) {
+            cout << "Invalid input. Please enter a valid input." << endl;
+            cin.clear(); // Clear the fail state of cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+            continue; // Continue to the next iteration of the loop
+        };
 
         switch (choice) {
             case 1:
