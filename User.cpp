@@ -1,5 +1,7 @@
 #include "User.h"
 #include <fstream>
+#include <iostream>
+using namespace std ;
 
 UserManager::UserManager() {
     loadUsers();
@@ -78,7 +80,12 @@ void UserManager::showMenu() {
         std::cout << "3. Exit\n";
         std::cout << "Please enter your choice: ";
         int choice;
-        std::cin >> choice;
+        if (!(cin>>choice)) {
+            cout << "Invalid input. Please enter a valid input." << endl;
+            cin.clear(); // Clear the fail state of cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+            continue; // Continue to the next iteration of the loop
+        }
 
         switch (choice) {
             case 1:
