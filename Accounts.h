@@ -1,17 +1,27 @@
 #ifndef ACCOUNTS_H
 #define ACCOUNTS_H
 
+#include <vector>
 #include <string>
-#include <iostream>
+#include "User.h"
 
-namespace BankEasy {
+namespace bankeasy {
 
-class Account {
+class Accounts {
 public:
-    virtual void type() = 0;  // Pure virtual function
-    virtual ~Account() = default;
+    Accounts();
+    virtual ~Accounts();
+    void addUser(const User& user);
+    User* login(const std::string& email, const std::string& pin);
+    std::vector<User>& getUsers();
+    virtual std::string type() const = 0; // Pure virtual function
+    void saveUsers(); // Make this method public
+
+private:
+    std::vector<User> users;
+    void loadUsers();
 };
 
-}  // namespace BankEasy
+} // namespace bankeasy
 
-#endif  // ACCOUNTS_H
+#endif // ACCOUNTS_H
