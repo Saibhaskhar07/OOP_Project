@@ -34,19 +34,22 @@ std::vector<User>& Accounts::getUsers() {
 void Accounts::loadUsers() {
     std::ifstream inFile("accounts.dat");
     if (inFile.is_open()) {
+        std::string accountType;
+        std::getline(inFile, accountType);
         while (inFile.peek() != EOF) {
             User user = User::load(inFile);
             users.push_back(user);
         }
         inFile.close();
-    } else {
-        std::cout << "No existing accounts found.\n";
     }
 }
 
 void Accounts::saveUsers() {
     std::ofstream outFile("accounts.dat");
     if (outFile.is_open()) {
+        if (!users.empty()) {
+            outFile << users.front().getAccountType() << '\n';
+        }
         for (const User& user : users) {
             user.save(outFile);
         }

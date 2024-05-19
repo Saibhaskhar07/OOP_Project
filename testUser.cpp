@@ -123,9 +123,6 @@ int main() {
     std::cout << "Welcome to BankEasy!\n\n";
 
     Accounts* accounts = loadAccounts();
-    if (accounts == nullptr) {
-        std::cout << "No existing accounts found. Please create a new account.\n\n";
-    }
 
     Admin admin("Admin", "admin@bankeasy.com", "adminpass");
     int choice;

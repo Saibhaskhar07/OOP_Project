@@ -15,7 +15,7 @@ public:
     User* login(const std::string& email, const std::string& pin);
     std::vector<User>& getUsers();
     virtual std::string type() const = 0; // Pure virtual function
-    void saveUsers(); // Make this method public
+    void saveUsers();
 
 private:
     std::vector<User> users;
