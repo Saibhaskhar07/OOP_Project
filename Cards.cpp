@@ -1,5 +1,7 @@
 #include "Cards.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 namespace bankeasy {
 
@@ -61,3 +63,35 @@ bool Cards::getStatus() const {
 }
 
 } // namespace bankeasy
+
+int generateRandomNumber(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
+
+long int generateRandomCardNumber() {
+    long int cardNumber = 0;
+    for (int i = 0; i < 16; ++i) {
+        cardNumber = cardNumber * 10 + generateRandomNumber(0, 9);
+    }
+    return cardNumber;
+}
+
+int generateRandomCVV() {
+    return generateRandomNumber(100, 999);
+}
+
+int main() {
+    srand(time(0));
+
+    std::string cardType = "Credit";
+    long int cardNumber = generateRandomCardNumber();
+    std::string cardStart = "05/24";
+    std::string cardExpiry = "06/26";
+    int cvv = generateRandomCVV();
+    double limit = 5000.00;
+
+    bankeasy::Cards card(cardType, cardNumber, cardStart, cardExpiry, cvv, limit);
+    card.displayCardDetails();
+
+    return 0;
+}
