@@ -2,11 +2,11 @@
 #define USER_H
 
 #include <string>
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include "Loan.h"
 #include "Cards.h"
+#include "ScheduledPayment.h"
+#include "Utils.h"
 
 namespace bankeasy {
 
@@ -20,6 +20,7 @@ public:
     std::string getPin() const;
     double getBalance() const;
     std::string getAccountType() const;
+
     void deposit(double amount);
     void withdraw(double amount);
     void save(std::ofstream& out) const;
@@ -43,12 +44,6 @@ private:
     std::string accountType;
     Loan* loan;
     bool transactionsFrozen;
-
-    struct ScheduledPayment {
-        std::string purpose;
-        double amount;
-        std::string frequency;
-    };
     std::vector<ScheduledPayment> scheduledPayments;
     std::vector<Cards> cards;
 };

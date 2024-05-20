@@ -8,5 +8,7 @@ void clearInputStream();
 int getValidatedIntInput();
 double getValidatedDoubleInput();
 std::string getValidatedStringInput();
+std::string getValidatedEmailInput();
+std::string getValidatedPinInput();
 
 #endif // UTILS_H

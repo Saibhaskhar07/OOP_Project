@@ -1,6 +1,6 @@
 #include "Admin.h"
+#include "Utils.h"
 #include <iostream>
-#include <algorithm>
 
 namespace bankeasy {
 
@@ -21,42 +21,35 @@ bool Admin::authenticate(const std::string& adminPassword) const {
 
 void Admin::viewAllUsers(const std::vector<User>& users) const {
     if (users.empty()) {
-        std::cout << "No users available.\n\n";
+        std::cout << "No users found.\n\n";
         return;
     }
-    for (const User& user : users) {
+    for (const auto& user : users) {
         std::cout << "Name: " << user.getName() << ", Email: " << user.getEmail() << ", Balance: $" << user.getBalance() << ", Account Type: " << user.getAccountType() << "\n";
     }
     std::cout << "\n";
 }
 
 void Admin::deleteUser(std::vector<User>& users, const std::string& email) {
-    auto it = std::remove_if(users.begin(), users.end(),
-        [&email](const User& user) {
-            return user.getEmail() == email;
-        });
-    if (it != users.end()) {
-        std::cout << "Deleting user with email: " << email << "\n";
-        users.erase(it, users.end());
-        std::cout << "User deleted successfully.\n\n";
-    } else {
-        std::cout << "User not found.\n\n";
-    }
+    users.erase(std::remove_if(users.begin(), users.end(), [&email](const User& user) {
+        return user.getEmail() == email;
+    }), users.end());
+    std::cout << "User deleted successfully.\n\n";
 }
 
 void Admin::changeInterestRate(std::vector<User>& users, const std::string& email, double newRate) {
-    for (User& user : users) {
-        if (user.getEmail() == email && user.getAccountType().find("Loan") != std::string::npos) {
+    for (auto& user : users) {
+        if (user.getEmail() == email) {
             user.changeInterestRate(newRate);
             std::cout << "Interest rate changed successfully.\n\n";
             return;
         }
     }
-    std::cout << "User not found or not a loan account.\n\n";
+    std::cout << "User not found.\n\n";
 }
 
 void Admin::freezeTransactions(std::vector<User>& users, const std::string& email) {
-    for (User& user : users) {
+    for (auto& user : users) {
         if (user.getEmail() == email) {
             user.freezeTransactions();
             std::cout << "Transactions frozen successfully.\n\n";
@@ -67,7 +60,7 @@ void Admin::freezeTransactions(std::vector<User>& users, const std::string& emai
 }
 
 void Admin::unfreezeTransactions(std::vector<User>& users, const std::string& email) {
-    for (User& user : users) {
+    for (auto& user : users) {
         if (user.getEmail() == email) {
             user.unfreezeTransactions();
             std::cout << "Transactions unfrozen successfully.\n\n";
@@ -78,13 +71,13 @@ void Admin::unfreezeTransactions(std::vector<User>& users, const std::string& em
 }
 
 void Admin::updateLoginDetails(std::vector<User>& users, const std::string& email) {
-    for (User& user : users) {
+    for (auto& user : users) {
         if (user.getEmail() == email) {
             std::string newEmail, newPin;
             std::cout << "Enter new email: ";
-            std::cin >> newEmail;
+            newEmail = getValidatedEmailInput();
             std::cout << "Enter new PIN: ";
-            std::cin >> newPin;
+            newPin = getValidatedPinInput();
             user.updateLoginDetails(newEmail, newPin);
             std::cout << "Login details updated successfully.\n\n";
             return;
@@ -94,11 +87,11 @@ void Admin::updateLoginDetails(std::vector<User>& users, const std::string& emai
 }
 
 void Admin::changePin(std::vector<User>& users, const std::string& email) {
-    for (User& user : users) {
+    for (auto& user : users) {
         if (user.getEmail() == email) {
             std::string newPin;
             std::cout << "Enter new PIN: ";
-            std::cin >> newPin;
+            newPin = getValidatedPinInput();
             user.updateLoginDetails(user.getEmail(), newPin);
             std::cout << "PIN changed successfully.\n\n";
             return;

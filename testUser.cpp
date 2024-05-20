@@ -5,7 +5,7 @@
 #include "Admin.h"
 #include "Personal.h"
 #include "Commercial.h"
-#include "Utils.h" // Include the utility functions
+#include "Utils.h"
 
 using namespace bankeasy;
 
@@ -15,9 +15,9 @@ void addUserInput(Accounts* accounts) {
     std::cout << "Enter name: ";
     name = getValidatedStringInput();
     std::cout << "Enter email: ";
-    email = getValidatedStringInput();
+    email = getValidatedEmailInput();
     std::cout << "Enter PIN: ";
-    pin = getValidatedStringInput();
+    pin = getValidatedPinInput();
 
     if (accounts->type() == "Commercial") {
         accountType = "Commercial";
@@ -64,9 +64,9 @@ void performUserActions(User* user, Accounts* accounts) {
             case 4: {
                 std::string newEmail, newPin;
                 std::cout << "Enter new email: ";
-                newEmail = getValidatedStringInput();
+                newEmail = getValidatedEmailInput();
                 std::cout << "Enter new PIN: ";
-                newPin = getValidatedStringInput();
+                newPin = getValidatedPinInput();
                 user->updateLoginDetails(newEmail, newPin);
                 accounts->saveUsers();
                 break;
@@ -105,14 +105,14 @@ void adminActions(Admin& admin, Accounts* accounts) {
                 break;
             case 2:
                 std::cout << "Enter email of user to delete: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 admin.deleteUser(users, email);
                 accounts->saveUsers(); // Ensure users are saved after deletion
                 break;
             case 3:
                 double newRate;
                 std::cout << "Enter email of user to change interest rate: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 std::cout << "Enter new interest rate: ";
                 newRate = getValidatedDoubleInput();
                 admin.changeInterestRate(users, email, newRate);
@@ -120,25 +120,25 @@ void adminActions(Admin& admin, Accounts* accounts) {
                 break;
             case 4:
                 std::cout << "Enter email of user to freeze transactions: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 admin.freezeTransactions(users, email);
                 accounts->saveUsers();
                 break;
             case 5:
                 std::cout << "Enter email of user to unfreeze transactions: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 admin.unfreezeTransactions(users, email);
                 accounts->saveUsers();
                 break;
             case 6:
                 std::cout << "Enter email of user to update login details: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 admin.updateLoginDetails(users, email);
                 accounts->saveUsers();
                 break;
             case 7:
                 std::cout << "Enter email of user to change PIN: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 admin.changePin(users, email);
                 accounts->saveUsers();
                 break;
@@ -204,9 +204,9 @@ int main() {
                 }
                 std::string email, pin;
                 std::cout << "Enter email to login: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 std::cout << "Enter PIN: ";
-                pin = getValidatedStringInput();
+                pin = getValidatedPinInput();
 
                 User* user = accounts->login(email, pin);
                 if (user != nullptr) {
@@ -224,7 +224,7 @@ int main() {
                 std::string email, password;
                 std::cout << "Admin Login\n";
                 std::cout << "Email: ";
-                email = getValidatedStringInput();
+                email = getValidatedEmailInput();
                 std::cout << "Password: ";
                 password = getValidatedStringInput();
 

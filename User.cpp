@@ -1,12 +1,35 @@
 #include "User.h"
 #include "StudentLoan.h"
 #include "PersonalLoan.h"
-#include "Utils.h" // Include the utility functions
+#include "ScheduledPayment.h"
+#include "Utils.h"
 #include <fstream>
 #include <iostream>
 #include <ctime>
+#include <random>
 
 namespace bankeasy {
+
+// Function to generate a random 16-digit card number
+std::string generateRandomCardNumber() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 9);
+
+    std::string cardNumber;
+    for (int i = 0; i < 16; ++i) {
+        cardNumber += std::to_string(dis(gen));
+    }
+    return cardNumber;
+}
+
+// Function to generate a random 3-digit CVV number
+int generateRandomCVV() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(100, 999);
+    return dis(gen);
+}
 
 User::User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan)
     : name(name), email(email), pin(pin), balance(loan ? loan->getAmount() : 0), accountType(accountType), loan(loan), transactionsFrozen(false) {}
@@ -97,7 +120,7 @@ User User::load(std::ifstream& in) {
             std::string course, placeOfStudy;
             std::getline(in, course);
             std::getline(in, placeOfStudy);
-            loan = new StudentLoan(amount, tenure, course, placeOfStudy); // Correct constructor usage
+            loan = new StudentLoan(amount, tenure, course, placeOfStudy);
         } else if (loanType == "Personal Loan") {
             std::string purpose;
             std::getline(in, purpose);
@@ -264,24 +287,19 @@ void User::manageCards() {
         choice = getValidatedIntInput();
         switch (choice) {
             case 1: {
-                std::string cardType, cardStart, cardExpiry;
-                long int cardNumber;
-                int cvv;
+                std::string cardType, cardStart = "06/26", cardExpiry = "06/26";
+                long int cardNumber = std::stol(generateRandomCardNumber());
+                int cvv = generateRandomCVV();
                 double limit;
                 std::cout << "Enter card type: ";
                 cardType = getValidatedStringInput();
-                std::cout << "Enter card number: ";
-                cardNumber = getValidatedIntInput();
-                std::cout << "Enter card start date: ";
-                cardStart = getValidatedStringInput();
-                std::cout << "Enter card expiry date: ";
-                cardExpiry = getValidatedStringInput();
-                std::cout << "Enter CVV: ";
-                cvv = getValidatedIntInput();
                 std::cout << "Enter card limit: ";
                 limit = getValidatedDoubleInput();
                 Cards card(cardType, cardNumber, cardStart, cardExpiry, cvv, limit);
                 addCard(card);
+                std::cout << "Card Number: " << cardNumber << "\n";
+                std::cout << "CVV: " << cvv << "\n";
+                std::cout << "Expiry Date: " << cardExpiry << "\n\n";
                 break;
             }
             case 2: {

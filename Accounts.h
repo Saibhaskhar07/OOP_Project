@@ -2,25 +2,21 @@
 #define ACCOUNTS_H
 
 #include <vector>
-#include <string>
 #include "User.h"
 
 namespace bankeasy {
 
 class Accounts {
 public:
-    Accounts();
-    virtual ~Accounts();
-    void addUser(const User& user);
-    User* login(const std::string& email, const std::string& pin);
-    std::vector<User>& getUsers();
-    virtual std::string type() const = 0; // Pure virtual function
-    void saveUsers();
-    void deleteUser(const std::string& email);
-
-private:
+    virtual ~Accounts() = default;
+    virtual std::string type() const = 0;
+    virtual User* login(const std::string& email, const std::string& pin);
+    virtual void addUser(const User& user);
+    virtual void deleteUser(const std::string& email);
+    virtual void saveUsers() const;
+    virtual std::vector<User>& getUsers();
+protected:
     std::vector<User> users;
-    void loadUsers();
 };
 
 } // namespace bankeasy

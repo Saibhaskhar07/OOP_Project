@@ -10,6 +10,7 @@ namespace bankeasy {
 class Admin {
 public:
     Admin(const std::string& adminName, const std::string& adminEmail, const std::string& adminPassword);
+
     std::string getAdminName() const;
     std::string getAdminEmail() const;
     bool authenticate(const std::string& adminPassword) const;

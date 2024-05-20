@@ -1,7 +1,8 @@
 #include "Personal.h"
-#include "Utils.h" // Include the utility functions
-#include "PersonalLoan.h" // Include the PersonalLoan header
-#include "StudentLoan.h" // Include the StudentLoan header
+#include "Utils.h"
+#include "PersonalLoan.h"
+#include "StudentLoan.h"
+#include <iostream>
 
 namespace bankeasy {
 
