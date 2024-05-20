@@ -1,11 +1,8 @@
 #ifndef ACCOUNTS_H
 #define ACCOUNTS_H
 
-#include <iostream>
-#include <vector>
 #include <string>
-#include <ctime>
-#include <cstdlib>
+#include <vector>
 
 struct Account {
     std::string accountNumber;
@@ -15,13 +12,10 @@ struct Account {
 
 class Accounts {
 public:
-    Accounts();
     void displayAccounts();
-    void createAccount();
+    void createAccount(std::vector<Account>& userAccounts);
     void selectAccount();
     void deleteAccount();
-private:
-    std::vector<Account> accounts;
     std::string generateAccountNumber() const;
 };
 

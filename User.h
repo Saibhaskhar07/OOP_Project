@@ -2,8 +2,8 @@
 #define USER_H
 
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include "Accounts.h"
 
 struct User {
@@ -21,13 +21,14 @@ public:
     void signUp();
     bool login();
     void showMenu();
-    void displayUserAccounts(const User& user);
+
 private:
     std::vector<User> users;
     User* currentUser;
-    bool checkCredentials(const std::string& email, const std::string& password);
     void loadUsers();
     void saveUsers();
+    void createAccount();
+    std::string generateAccountNumber();
 };
 
 #endif // USER_H
