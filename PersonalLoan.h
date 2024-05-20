@@ -1,21 +1,18 @@
-#ifndef PERSONALLOAN_H
-#define PERSONALLOAN_H
+#ifndef PERSONAL_H
+#define PERSONAL_H
 
+#include "Accounts.h"
 #include "Loan.h"
 
 namespace bankeasy {
 
-class PersonalLoan : public Loan {
+class Personal : public Accounts {
 public:
-    PersonalLoan(double amount, int tenure, const std::string& purpose);
-    std::string getLoanType() const override;
-    void displayRequiredDocuments() const override;
-    void calculateEMI() const override;
-
-private:
-    std::string purpose;
+    Personal();
+    std::string type() const override;
+    static std::string chooseAccountType(Loan*& loan);
 };
 
 } // namespace bankeasy
 
-#endif // PERSONALLOAN_H
+#endif // PERSONAL_H
