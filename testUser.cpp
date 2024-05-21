@@ -153,17 +153,25 @@ void adminActions(Admin& admin, Accounts* accounts) {
 
 Accounts* loadAccounts() {
     std::ifstream inFile("accounts.dat");
+    Accounts* accounts = nullptr;
     if (inFile.is_open() && inFile.peek() != EOF) {
         std::string accountType;
-        std::getline(inFile, accountType);
-        inFile.close();
-        if (accountType == "Commercial") {
-            return new Commercial();
-        } else if (accountType == "Personal") {
-            return new Personal();
+        while (std::getline(inFile, accountType)) {
+            if (accountType == "Commercial") {
+                if (accounts == nullptr) {
+                    accounts = new Commercial();
+                }
+                accounts->getUsers().push_back(User::load(inFile));
+            } else if (accountType == "Personal") {
+                if (accounts == nullptr) {
+                    accounts = new Personal();
+                }
+                accounts->getUsers().push_back(User::load(inFile));
+            }
         }
     }
-    return nullptr;
+    inFile.close();
+    return accounts;
 }
 
 int main() {
@@ -184,12 +192,16 @@ int main() {
                 std::cout << "1. Commercial\n";
                 std::cout << "2. Personal\n";
                 std::cout << "Enter your choice: ";
-                choice = getValidatedIntInput();
+                int accountChoice = getValidatedIntInput(); // Change variable name to avoid conflict
 
-                if (choice == 1) {
-                    accounts = new Commercial();
-                } else if (choice == 2) {
-                    accounts = new Personal();
+                if (accountChoice == 1) {
+                    if (accounts == nullptr) {
+                        accounts = new Commercial();
+                    }
+                } else if (accountChoice == 2) {
+                    if (accounts == nullptr) {
+                        accounts = new Personal();
+                    }
                 } else {
                     std::cout << "Invalid choice. Exiting account creation.\n\n";
                     break;
@@ -213,6 +225,7 @@ int main() {
                     std::cout << "Welcome, " << user->getName() << "!\n";
                     std::cout << "Email: " << user->getEmail() << "\n";
                     std::cout << "Account Type: " << user->getAccountType() << "\n";
+                    std::cout << "Account Number: " << user->getAccountNumber() << "\n";
                     std::cout << "Balance: $" << user->getBalance() << "\n\n";
                     performUserActions(user, accounts);
                 } else {

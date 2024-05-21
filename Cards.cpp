@@ -3,14 +3,14 @@
 
 namespace bankeasy {
 
-Cards::Cards(const std::string& type, long int number, const std::string& start, const std::string& expiry, int cvv, double limit)
+Cards::Cards(const std::string& type, long long int number, const std::string& start, const std::string& expiry, int cvv, double limit)
     : type(type), number(number), start(start), expiry(expiry), cvv(cvv), limit(limit), active(false) {}
 
 std::string Cards::getType() const {
     return type;
 }
 
-long int Cards::getNumber() const {
+long long int Cards::getNumber() const {
     return number;
 }
 

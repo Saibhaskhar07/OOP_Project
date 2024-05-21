@@ -20,6 +20,7 @@ public:
     std::string getPin() const;
     double getBalance() const;
     std::string getAccountType() const;
+    std::string getAccountNumber() const;  // Added function declaration
 
     void deposit(double amount);
     void withdraw(double amount);
@@ -42,6 +43,7 @@ private:
     std::string pin;
     double balance;
     std::string accountType;
+    std::string accountNumber;  // Added data member
     Loan* loan;
     bool transactionsFrozen;
     std::vector<ScheduledPayment> scheduledPayments;

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
+#include <sstream>
 
 namespace bankeasy {
 
@@ -31,8 +32,19 @@ int generateRandomCVV() {
     return dis(gen);
 }
 
+// Function to generate a random account number
+std::string generateAccountNumber() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<long long> dis(1000000000LL, 9999999999LL);
+
+    std::ostringstream oss;
+    oss << dis(gen);
+    return oss.str();
+}
+
 User::User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan)
-    : name(name), email(email), pin(pin), balance(loan ? loan->getAmount() : 0), accountType(accountType), loan(loan), transactionsFrozen(false) {}
+    : name(name), email(email), pin(pin), balance(loan ? loan->getAmount() : 0), accountType(accountType), loan(loan), transactionsFrozen(false), accountNumber(generateAccountNumber()) {}
 
 User::~User() {
     delete loan;
@@ -56,6 +68,10 @@ double User::getBalance() const {
 
 std::string User::getAccountType() const {
     return accountType;
+}
+
+std::string User::getAccountNumber() const {
+    return accountNumber;
 }
 
 void User::deposit(double amount) {
@@ -83,9 +99,16 @@ void User::withdraw(double amount) {
 }
 
 void User::save(std::ofstream& out) const {
-    out << name << '\n' << email << '\n' << pin << '\n' << balance << '\n' << accountType << '\n';
+    out << name << '\n' << email << '\n' << pin << '\n' << balance << '\n' << accountType << '\n' << accountNumber << '\n';
     if (loan) {
         out << loan->getLoanType() << '\n' << loan->getAmount() << '\n' << loan->getTenure() << '\n';
+        if (loan->getLoanType() == "Student Loan") {
+            StudentLoan* studentLoan = dynamic_cast<StudentLoan*>(loan);
+            out << studentLoan->getCourse() << '\n' << studentLoan->getPlaceOfStudy() << '\n';
+        } else if (loan->getLoanType() == "Personal Loan") {
+            PersonalLoan* personalLoan = dynamic_cast<PersonalLoan*>(loan);
+            out << personalLoan->getPurpose() << '\n';
+        }
     } else {
         out << "No Loan\n";
     }
@@ -101,7 +124,7 @@ void User::save(std::ofstream& out) const {
 }
 
 User User::load(std::ifstream& in) {
-    std::string name, email, pin, accountType, loanType;
+    std::string name, email, pin, accountType, loanType, accountNumber;
     double balance, amount;
     int tenure, numPayments, numCards;
     bool transactionsFrozen;
@@ -111,11 +134,12 @@ User User::load(std::ifstream& in) {
     in >> balance;
     in.ignore();
     std::getline(in, accountType);
+    std::getline(in, accountNumber);
     std::getline(in, loanType);
+    Loan* loan = nullptr;
     if (loanType != "No Loan") {
         in >> amount >> tenure;
         in.ignore();
-        Loan* loan = nullptr;
         if (loanType == "Student Loan") {
             std::string course, placeOfStudy;
             std::getline(in, course);
@@ -126,52 +150,10 @@ User User::load(std::ifstream& in) {
             std::getline(in, purpose);
             loan = new PersonalLoan(amount, tenure, purpose);
         }
-        User user(name, email, pin, accountType, loan);
-        user.balance = balance;
-        in >> transactionsFrozen;
-        user.transactionsFrozen = transactionsFrozen;
-        in.ignore();
-        in >> numPayments;
-        in.ignore();
-        for (int i = 0; i < numPayments; ++i) {
-            ScheduledPayment payment;
-            std::getline(in, payment.purpose);
-            in >> payment.amount;
-            in.ignore();
-            std::getline(in, payment.frequency);
-            user.scheduledPayments.push_back(payment);
-        }
-        in >> numCards;
-        in.ignore();
-        for (int i = 0; i < numCards; ++i) {
-            std::string cardType, cardStart, cardExpiry;
-            long int cardNumber;
-            int cvv;
-            double limit;
-            bool isActive;
-            std::getline(in, cardType);
-            in >> cardNumber;
-            in.ignore();
-            std::getline(in, cardStart);
-            std::getline(in, cardExpiry);
-            in >> cvv;
-            in.ignore();
-            in >> limit;
-            in.ignore();
-            in >> isActive;
-            in.ignore();
-            Cards card(cardType, cardNumber, cardStart, cardExpiry, cvv, limit);
-            if (isActive) {
-                card.activateCard();
-            } else {
-                card.deactivateCard();
-            }
-            user.cards.push_back(card);
-        }
-        return user;
     }
-    User user(name, email, pin, accountType);
+    User user(name, email, pin, accountType, loan);
     user.balance = balance;
+    user.accountNumber = accountNumber;
     in >> transactionsFrozen;
     user.transactionsFrozen = transactionsFrozen;
     in.ignore();
@@ -189,7 +171,7 @@ User User::load(std::ifstream& in) {
     in.ignore();
     for (int i = 0; i < numCards; ++i) {
         std::string cardType, cardStart, cardExpiry;
-        long int cardNumber;
+        long long int cardNumber;
         int cvv;
         double limit;
         bool isActive;
@@ -288,13 +270,11 @@ void User::manageCards() {
         switch (choice) {
             case 1: {
                 std::string cardType, cardStart = "06/26", cardExpiry = "06/26";
-                long int cardNumber = std::stol(generateRandomCardNumber());
+                long long int cardNumber = std::stoll(generateRandomCardNumber());
                 int cvv = generateRandomCVV();
                 double limit;
-                std::cout << "Enter card type: ";
+                std::cout << "Enter card type (Debit or Credit): ";
                 cardType = getValidatedStringInput();
-                std::cout << "Enter card limit: ";
-                limit = getValidatedDoubleInput();
                 Cards card(cardType, cardNumber, cardStart, cardExpiry, cvv, limit);
                 addCard(card);
                 std::cout << "Card Number: " << cardNumber << "\n";
@@ -303,48 +283,51 @@ void User::manageCards() {
                 break;
             }
             case 2: {
-                long int cardNumber;
+                long long int cardNumber;
                 std::cout << "Enter card number to activate: ";
-                cardNumber = getValidatedIntInput();
+                cardNumber = getValidatedLongLongIntInput();
                 for (auto& card : cards) {
                     if (card.getNumber() == cardNumber) {
                         card.activateCard();
+                        std::cout << "Card activated successfully.\n\n";
                         break;
                     }
                 }
                 break;
             }
             case 3: {
-                long int cardNumber;
+                long long int cardNumber;
                 std::cout << "Enter card number to deactivate: ";
-                cardNumber = getValidatedIntInput();
+                cardNumber = getValidatedLongLongIntInput();
                 for (auto& card : cards) {
                     if (card.getNumber() == cardNumber) {
                         card.deactivateCard();
+                        std::cout << "Card deactivated successfully.\n\n";
                         break;
                     }
                 }
                 break;
             }
             case 4: {
-                long int cardNumber;
+                long long int cardNumber;
                 double newLimit;
                 std::cout << "Enter card number to update limit: ";
-                cardNumber = getValidatedIntInput();
+                cardNumber = getValidatedLongLongIntInput();
                 std::cout << "Enter new limit: ";
                 newLimit = getValidatedDoubleInput();
                 for (auto& card : cards) {
                     if (card.getNumber() == cardNumber) {
                         card.updateLimit(newLimit);
+                        std::cout << "Card limit updated successfully.\n\n";
                         break;
                     }
                 }
                 break;
             }
             case 5: {
-                long int cardNumber;
+                long long int cardNumber;
                 std::cout << "Enter card number to view details: ";
-                cardNumber = getValidatedIntInput();
+                cardNumber = getValidatedLongLongIntInput();
                 for (const auto& card : cards) {
                     if (card.getNumber() == cardNumber) {
                         card.displayCardDetails();

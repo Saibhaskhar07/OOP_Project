@@ -1,5 +1,4 @@
 #include "Loan.h"
-#include <iostream>
 
 namespace bankeasy {
 
@@ -12,10 +11,6 @@ double Loan::getAmount() const {
 
 int Loan::getTenure() const {
     return tenure;
-}
-
-void Loan::changeInterestRate(double newRate) {
-    interestRate = newRate;
 }
 
 } // namespace bankeasy

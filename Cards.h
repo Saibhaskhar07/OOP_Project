@@ -7,29 +7,27 @@ namespace bankeasy {
 
 class Cards {
 public:
-    Cards(const std::string& cardType, long int cardNumber, const std::string& cardStart, const std::string& cardExpiry, int cvv, double limit);
-    void activateCard();
-    void deactivateCard();
-    void updateLimit(double newLimit);
-    void displayCardDetails() const;
-
-    // Accessor methods
+    Cards(const std::string& type, long long int number, const std::string& start, const std::string& expiry, int cvv, double limit);
     std::string getType() const;
-    long int getNumber() const;
+    long long int getNumber() const;
     std::string getStart() const;
     std::string getExpiry() const;
     int getCVV() const;
     double getLimit() const;
     bool getStatus() const;
+    void activateCard();
+    void deactivateCard();
+    void updateLimit(double newLimit);
+    void displayCardDetails() const;
 
 private:
-    std::string cardType;
-    long int cardNumber;
-    std::string cardStart;
-    std::string cardExpiry;
+    std::string type;
+    long long int number;
+    std::string start;
+    std::string expiry;
     int cvv;
     double limit;
-    bool isActive;
+    bool active;
 };
 
 } // namespace bankeasy

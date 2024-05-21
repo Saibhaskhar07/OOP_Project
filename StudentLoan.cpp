@@ -1,32 +1,36 @@
 #include "StudentLoan.h"
 #include <iostream>
-#include <cmath>
 
 namespace bankeasy {
 
 StudentLoan::StudentLoan(double amount, int tenure, const std::string& course, const std::string& placeOfStudy)
     : Loan(amount, tenure), course(course), placeOfStudy(placeOfStudy) {
-    interestRate = 12.54;
+    interestRate = 12.54; // Specific interest rate for Student Loans
 }
 
 std::string StudentLoan::getLoanType() const {
     return "Student Loan";
 }
 
+std::string StudentLoan::getCourse() const {
+    return course;
+}
+
+std::string StudentLoan::getPlaceOfStudy() const {
+    return placeOfStudy;
+}
+
+void StudentLoan::changeInterestRate(double newRate) {
+    interestRate = newRate;
+}
+
 void StudentLoan::displayRequiredDocuments() const {
-    std::cout << "Required documents for Student Loan:\n";
-    std::cout << "- COE\n";
-    std::cout << "- Proof of Identity\n";
-    std::cout << "- Proof of Residence\n";
-    std::cout << "- ITR for 2 years\n";
-    std::cout << "- Place of Study\n\n";
+    std::cout << "- COE\n- Proof of Identity\n- Proof of Residence\n- ITR for 2 years\n- Place of Study\n";
 }
 
 void StudentLoan::calculateEMI() const {
-    double emi;
-    double r = interestRate / (12 * 100);
-    emi = (amount * r * pow(1 + r, tenure)) / (pow(1 + r, tenure) - 1);
-    std::cout << "EMI for the loan is: $" << emi << "\n\n";
+    double emi = (amount * interestRate / 100) / tenure;
+    std::cout << "EMI for the loan is: $" << emi << "\n";
 }
 
 } // namespace bankeasy

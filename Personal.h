@@ -3,6 +3,7 @@
 
 #include "Accounts.h"
 #include "Loan.h"
+#include <string>
 
 namespace bankeasy {
 
@@ -11,6 +12,9 @@ public:
     Personal();
     std::string type() const override;
     static std::string chooseAccountType(Loan*& loan);
+
+private:
+    std::string accountType;
 };
 
 } // namespace bankeasy

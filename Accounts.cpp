@@ -1,7 +1,32 @@
 #include "Accounts.h"
+#include "User.h"
 #include <fstream>
+#include <iostream>
+#include <algorithm>
 
 namespace bankeasy {
+
+Accounts::Accounts() {}
+
+Accounts::~Accounts() {}
+
+void Accounts::saveUsers() const {
+    std::ofstream outFile("accounts.dat", std::ios::trunc); // Open file in truncation mode to overwrite existing content
+    if (outFile.is_open()) {
+        for (const auto& user : users) {
+            user.save(outFile);
+        }
+    }
+}
+
+std::vector<User>& Accounts::getUsers() {
+    return users;
+}
+
+void Accounts::addUser(const User& user) {
+    users.push_back(user);
+    saveUsers(); // Save the user immediately after adding
+}
 
 User* Accounts::login(const std::string& email, const std::string& pin) {
     for (auto& user : users) {
@@ -12,27 +37,12 @@ User* Accounts::login(const std::string& email, const std::string& pin) {
     return nullptr;
 }
 
-void Accounts::addUser(const User& user) {
-    users.push_back(user);
-    saveUsers();
-}
-
 void Accounts::deleteUser(const std::string& email) {
-    users.erase(std::remove_if(users.begin(), users.end(), [&email](const User& user) {
+    auto it = std::remove_if(users.begin(), users.end(), [&email](const User& user) {
         return user.getEmail() == email;
-    }), users.end());
-    saveUsers();
-}
-
-void Accounts::saveUsers() const {
-    std::ofstream outFile("accounts.dat");
-    for (const auto& user : users) {
-        user.save(outFile);
-    }
-}
-
-std::vector<User>& Accounts::getUsers() {
-    return users;
+    });
+    users.erase(it, users.end());
+    saveUsers(); // Save the users immediately after deletion
 }
 
 } // namespace bankeasy

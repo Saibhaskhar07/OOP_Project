@@ -2,6 +2,7 @@
 #include <iostream>
 #include <limits>
 #include <regex>
+#include <ctime>
 
 // Function definitions
 void clearInputStream() {
@@ -11,6 +12,16 @@ void clearInputStream() {
 
 int getValidatedIntInput() {
     int input;
+    while (!(std::cin >> input)) {
+        std::cout << "Invalid input. Please enter a valid number: ";
+        clearInputStream();
+    }
+    clearInputStream();
+    return input;
+}
+
+long long getValidatedLongLongIntInput() {
+    long long input;
     while (!(std::cin >> input)) {
         std::cout << "Invalid input. Please enter a valid number: ";
         clearInputStream();
@@ -33,7 +44,7 @@ std::string getValidatedStringInput() {
     std::string input;
     std::getline(std::cin, input);
     while (input.empty() || std::any_of(input.begin(), input.end(), ::isdigit)) {
-        std::cout << "Invalid input. Please enter a valid text: ";
+        std::cout << "Invalid input. Please enter valid text: ";
         std::getline(std::cin, input);
     }
     return input;
@@ -58,4 +69,28 @@ std::string getValidatedPinInput() {
         std::getline(std::cin, pin);
     }
     return pin;
+}
+
+std::string getValidatedDateInput() {
+    std::string date;
+    std::regex dateRegex("^\\d{4}-\\d{2}-\\d{2}$"); // YYYY-MM-DD format
+    std::getline(std::cin, date);
+    std::tm tm = {};
+    while (!std::regex_match(date, dateRegex) || !strptime(date.c_str(), "%Y-%m-%d", &tm) || std::difftime(std::mktime(&tm), std::time(nullptr)) < 0) {
+        std::cout << "Invalid date. Please enter a valid date (YYYY-MM-DD) and not a past date: ";
+        std::getline(std::cin, date);
+    }
+    return date;
+}
+
+std::string getValidatedTimeInput() {
+    std::string time;
+    std::regex timeRegex("^\\d{2}:\\d{2}$"); // HH:MM format
+    std::getline(std::cin, time);
+    std::tm tm = {};
+    while (!std::regex_match(time, timeRegex) || !strptime(time.c_str(), "%H:%M", &tm)) {
+        std::cout << "Invalid time. Please enter a valid time (HH:MM): ";
+        std::getline(std::cin, time);
+    }
+    return time;
 }
