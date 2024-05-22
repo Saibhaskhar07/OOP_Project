@@ -1,7 +1,7 @@
-#include "BankEasyApp.h"
+#include "BankEasyApp.h" // Include header file for BankEasyApp class
 
-int main() {
-    BankEasyApp app;
-    app.run();
-    return 0;
+int main() { // Main function
+    BankEasyApp app; // Create BankEasyApp object
+    app.run(); // Call run method to start the application
+    return 0; // Return 0 to indicate successful execution
 }

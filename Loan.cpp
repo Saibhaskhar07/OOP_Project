@@ -1,16 +1,16 @@
-#include "Loan.h"
+#include "Loan.h" // Include header file for Loan class
 
-namespace bankeasy {
+namespace bankeasy { // Begin namespace bankeasy
 
-Loan::Loan(double amount, int tenure)
-    : amount(amount), tenure(tenure), interestRate(0.0) {}
+Loan::Loan(double amount, int tenure) // Constructor for Loan class
+    : amount(amount), tenure(tenure), interestRate(0.0) {} // Initialize member variables
 
-double Loan::getAmount() const {
-    return amount;
+double Loan::getAmount() const { // Method to get loan amount
+    return amount; // Return loan amount
 }
 
-int Loan::getTenure() const {
-    return tenure;
+int Loan::getTenure() const { // Method to get loan tenure
+    return tenure; // Return loan tenure
 }
 
-} // namespace bankeasy
+} // End namespace bankeasy

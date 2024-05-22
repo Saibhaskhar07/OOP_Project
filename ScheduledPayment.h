@@ -1,17 +1,16 @@
-#ifndef SCHEDULEDPAYMENT_H
+#ifndef SCHEDULEDPAYMENT_H // Header guard to prevent multiple inclusion
 #define SCHEDULEDPAYMENT_H
 
-#include <string>
+#include <string> // Include necessary header files
 
-namespace bankeasy {
+namespace bankeasy { // Begin namespace bankeasy
 
-struct ScheduledPayment {
-    std::string purpose;
-    double amount;
-    std::string frequency;
+struct ScheduledPayment { // Declare struct ScheduledPayment
+    std::string purpose; // Member variable for payment purpose
+    double amount; // Member variable for payment amount
+    std::string frequency; // Member variable for payment frequency
 };
 
-} // namespace bankeasy
+} // End namespace bankeasy
 
-#endif // SCHEDULEDPAYMENT_H
-
+#endif // End of header guard and file

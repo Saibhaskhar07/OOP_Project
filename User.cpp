@@ -8,6 +8,7 @@
 #include <ctime>
 #include <random>
 #include <sstream>
+#include "Cards.h"
 
 namespace bankeasy {
 
@@ -346,3 +347,4 @@ void User::manageCards() {
 }
 
 } // namespace bankeasy
+

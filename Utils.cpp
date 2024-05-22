@@ -4,12 +4,13 @@
 #include <regex>
 #include <ctime>
 
-// Function definitions
+// Function to clear input stream
 void clearInputStream() {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+// Function to get validated integer input
 int getValidatedIntInput() {
     int input;
     while (!(std::cin >> input)) {
@@ -20,6 +21,7 @@ int getValidatedIntInput() {
     return input;
 }
 
+// Function to get validated long long integer input
 long long getValidatedLongLongIntInput() {
     long long input;
     while (!(std::cin >> input)) {
@@ -30,6 +32,7 @@ long long getValidatedLongLongIntInput() {
     return input;
 }
 
+// Function to get validated double input
 double getValidatedDoubleInput() {
     double input;
     while (!(std::cin >> input)) {
@@ -40,6 +43,7 @@ double getValidatedDoubleInput() {
     return input;
 }
 
+// Function to get validated string input
 std::string getValidatedStringInput() {
     std::string input;
     std::getline(std::cin, input);
@@ -50,6 +54,7 @@ std::string getValidatedStringInput() {
     return input;
 }
 
+// Function to get validated email input
 std::string getValidatedEmailInput() {
     std::string email;
     std::regex emailRegex("^[\\w-]+@[\\w-]+\\.[\\w-]+$");
@@ -61,6 +66,7 @@ std::string getValidatedEmailInput() {
     return email;
 }
 
+// Function to get validated PIN input
 std::string getValidatedPinInput() {
     std::string pin;
     std::getline(std::cin, pin);
@@ -71,6 +77,7 @@ std::string getValidatedPinInput() {
     return pin;
 }
 
+// Function to get validated date input
 std::string getValidatedDateInput() {
     std::string date;
     std::regex dateRegex("^\\d{4}-\\d{2}-\\d{2}$"); // YYYY-MM-DD format
@@ -83,6 +90,7 @@ std::string getValidatedDateInput() {
     return date;
 }
 
+// Function to get validated time input
 std::string getValidatedTimeInput() {
     std::string time;
     std::regex timeRegex("^\\d{2}:\\d{2}$"); // HH:MM format

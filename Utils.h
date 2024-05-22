@@ -10,11 +10,13 @@
 
 namespace bankeasy {
 
+// Function to clear input stream
 inline void clearInputStream() {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+// Function to get validated string input
 inline std::string getValidatedStringInput() {
     std::string input;
     while (true) {
@@ -27,6 +29,7 @@ inline std::string getValidatedStringInput() {
     return input;
 }
 
+// Function to get validated email input
 inline std::string getValidatedEmailInput() {
     std::string email;
     std::regex emailRegex(R"(^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$)");
@@ -40,6 +43,7 @@ inline std::string getValidatedEmailInput() {
     return email;
 }
 
+// Function to get validated PIN input
 inline std::string getValidatedPinInput() {
     std::string pin;
     std::regex pinRegex(R"(\d{4})");
@@ -53,6 +57,7 @@ inline std::string getValidatedPinInput() {
     return pin;
 }
 
+// Function to get validated integer input
 inline int getValidatedIntInput() {
     int input;
     while (true) {
@@ -67,6 +72,7 @@ inline int getValidatedIntInput() {
     return input;
 }
 
+// Function to get validated double input
 inline double getValidatedDoubleInput() {
     double input;
     while (true) {
@@ -81,6 +87,7 @@ inline double getValidatedDoubleInput() {
     return input;
 }
 
+// Function to get validated date input
 inline std::string getValidatedDateInput() {
     std::string date;
     std::regex dateRegex(R"(\d{4}-\d{2}-\d{2})");
@@ -114,6 +121,7 @@ inline std::string getValidatedDateInput() {
     return date;
 }
 
+// Function to get validated time input
 inline std::string getValidatedTimeInput() {
     std::string time;
     std::regex timeRegex(R"(\d{2}:\d{2})");
@@ -127,6 +135,7 @@ inline std::string getValidatedTimeInput() {
     return time;
 }
 
+// Function to get validated long long integer input
 inline long long getValidatedLongLongIntInput() {
     long long input;
     while (true) {

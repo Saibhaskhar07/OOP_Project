@@ -1,28 +1,28 @@
-#ifndef ACCOUNTS_H
+#ifndef ACCOUNTS_H // Header guard to prevent multiple inclusions
 #define ACCOUNTS_H
 
-#include <vector>
-#include <string>
-#include "User.h"
+#include <vector> // Include vector header for managing user data
+#include <string> // Include string header for working with strings
+#include "User.h" // Include User header for user-related functionalities
 
-namespace bankeasy {
+namespace bankeasy { // Start the bankeasy namespace
 
-class Accounts {
+class Accounts { // Declare the Accounts class
 public:
-    Accounts();
-    virtual ~Accounts();
-    void addUser(const User& user);
-    User* login(const std::string& email, const std::string& pin);
-    std::vector<User>& getUsers();
-    virtual std::string type() const = 0; // Pure virtual function
-    void saveUsers();
-    void deleteUser(const std::string& email);
+    Accounts(); // Constructor to initialize the Accounts object
+    virtual ~Accounts(); // Virtual destructor for proper cleanup
+    void addUser(const User& user); // Method to add a user to the accounts
+    User* login(const std::string& email, const std::string& pin); // Method to log in a user
+    std::vector<User>& getUsers(); // Method to get the list of users
+    virtual std::string type() const = 0; // Pure virtual function to get account type
+    void saveUsers(); // Method to save user data to a file
+    void deleteUser(const std::string& email); // Method to delete a user
 
 private:
-    std::vector<User> users;
-    void loadUsers();
+    std::vector<User> users; // Vector to store user objects
+    void loadUsers(); // Method to load user data from a file
 };
 
-} // namespace bankeasy
+} // End of bankeasy namespace
 
-#endif // ACCOUNTS_H
+#endif // ACCOUNTS_H // End of header guard and file
