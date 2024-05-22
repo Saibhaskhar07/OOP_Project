@@ -4,7 +4,7 @@
 #include "Admin.h"
 #include "Personal.h"
 #include "Commercial.h"
-
+using namespace std;
 using namespace bankeasy;
 
 void addUserInput(Accounts* accounts) {
@@ -33,17 +33,36 @@ void performUserActions(User* user, Accounts* accounts) {
     do {
         std::cout << "Your balance: $" << user->getBalance() << "\n";
         std::cout << "1. Deposit\n2. Withdraw\n3. Schedule Payment\n4. Update Login Details\n5. Close Account\n6. Manage Cards\n7. Logout\nChoose an option: ";
-        std::cin >> action;
+        //std::cin >> action;
+        if (!(cin>>action)) {
+            cout << "Invalid input. Please enter a valid input." << endl;
+            cin.clear(); // Clear the fail state of cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+            continue; // Continue to the next iteration of the loop
+        }
+        
         switch (action) {
             case 1:
                 std::cout << "Enter amount to deposit: ";
-                std::cin >> amount;
+                //std::cin >> amount;
+                if (!(cin>>amount)) {
+                cout << "Invalid input. Please enter a valid input." << endl;
+                cin.clear(); // Clear the fail state of cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+                continue; // Continue to the next iteration of the loop
+        }
                 user->deposit(amount);
                 accounts->saveUsers();
                 break;
             case 2:
                 std::cout << "Enter amount to withdraw: ";
-                std::cin >> amount;
+                //std::cin >> amount;
+                if (!(cin>>amount)) {
+                cout << "Invalid input. Please enter a valid input." << endl;
+                cin.clear(); // Clear the fail state of cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+                continue; // Continue to the next iteration of the loop
+        }
                 user->withdraw(amount);
                 accounts->saveUsers();
                 break;
@@ -54,7 +73,13 @@ void performUserActions(User* user, Accounts* accounts) {
                 std::cin.ignore();
                 std::getline(std::cin, purpose);
                 std::cout << "Enter payment amount: ";
-                std::cin >> amount;
+                //std::cin >> amount;
+                if (!(cin>>amount)) {
+                cout << "Invalid input. Please enter a valid input." << endl;
+                cin.clear(); // Clear the fail state of cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+                continue; // Continue to the next iteration of the loop
+        }
                 std::cin.ignore();
                 std::cout << "Enter payment frequency (biweekly/monthly): ";
                 std::getline(std::cin, frequency);
@@ -99,7 +124,13 @@ void adminActions(Admin& admin, Accounts* accounts) {
     std::string email;
     do {
         std::cout << "1. View all users\n2. Delete a user\n3. Change interest rate\n4. Freeze transactions\n5. Unfreeze transactions\n6. Update Login Details\n7. Logout\nChoose an option: ";
-        std::cin >> choice;
+        //std::cin >> choice;
+        if (!(cin>>choice)) {
+            cout << "Invalid input. Please enter a valid input." << endl;
+            cin.clear(); // Clear the fail state of cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+            continue; // Continue to the next iteration of the loop
+        }
         switch (choice) {
             case 1:
                 admin.viewAllUsers(users);
@@ -115,7 +146,13 @@ void adminActions(Admin& admin, Accounts* accounts) {
                 std::cout << "Enter email of user to change interest rate: ";
                 std::cin >> email;
                 std::cout << "Enter new interest rate: ";
-                std::cin >> newRate;
+                //std::cin >> newRate;
+                if (!(cin>>newRate)) {
+                cout << "Invalid input. Please enter a valid input." << endl;
+                cin.clear(); // Clear the fail state of cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+                continue; // Continue to the next iteration of the loop
+        }
                 admin.changeInterestRate(users, email, newRate);
                 accounts->saveUsers();
                 break;
@@ -171,7 +208,13 @@ int main() {
 
     do {
         std::cout << "1. Sign Up\n2. Log In\n3. Admin Login\n4. Exit\nChoose an option: ";
-        std::cin >> choice;
+        //std::cin >> choice;
+        if (!(cin>>choice)) {
+            cout << "Invalid input. Please enter a valid input." << endl;
+            cin.clear(); // Clear the fail state of cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+            continue; // Continue to the next iteration of the loop
+        }
 
         switch (choice) {
             case 1: {
@@ -179,7 +222,13 @@ int main() {
                 std::cout << "1. Commercial\n";
                 std::cout << "2. Personal\n";
                 std::cout << "Enter your choice: ";
-                std::cin >> choice;
+                //std::cin >> choice;
+                if (!(cin>>choice)) {
+                cout << "Invalid input. Please enter a valid input." << endl;
+                cin.clear(); // Clear the fail state of cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore remaining input until the end of the line
+                continue; // Continue to the next iteration of the loop
+        }
                 std::cin.ignore(); // To consume the newline character left in the input buffer
 
                 if (choice == 1) {
