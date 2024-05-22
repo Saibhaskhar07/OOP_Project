@@ -20,6 +20,7 @@ public:
 
 private:
     std::vector<User> users;
+    void loadUsers() ; 
 };
 
 } // namespace bankeasy

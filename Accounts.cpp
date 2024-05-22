@@ -10,16 +10,23 @@ Accounts::Accounts() {}
 
 Accounts::~Accounts() {}
 
-void Accounts::saveUsers() const {
-    std::ofstream outFile("accounts.dat", std::ios::trunc); // Open file in truncation mode to overwrite existing content
-    if (outFile.is_open()) {
-        for (const auto& user : users) {
-            user.save(outFile);
+void Accounts::loadUsers() {
+    std::ifstream inFile("accounts.dat");
+    if (inFile.is_open()) {
+        std::string accountType;
+        std::getline(inFile, accountType);
+        while (inFile.peek() != EOF) {
+            User user = User::load(inFile);
+            users.push_back(user);
         }
+        inFile.close();
     }
 }
 
-std::vector<User>& Accounts::getUsers() {
+
+
+
+std::vector<User>& Accounts::getUsers() {   
     return users;
 }
 
@@ -43,6 +50,22 @@ void Accounts::deleteUser(const std::string& email) {
     });
     users.erase(it, users.end());
     saveUsers(); // Save the users immediately after deletion
+}
+
+void Accounts::saveUsers() const
+{
+    std::ofstream outFile("accounts.dat",std::ios::app);
+    if (outFile.is_open()) {
+        if (!users.empty()) {
+            outFile << users.front().getAccountType() << '\n';
+        }
+        for (const User& user : users) {
+            user.save(outFile);
+        }
+        outFile.close();
+    } else {
+        std::cerr << "Failed to open accounts.dat for writing.\n";
+    }
 }
 
 } // namespace bankeasy

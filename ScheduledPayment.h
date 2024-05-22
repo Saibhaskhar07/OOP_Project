@@ -14,3 +14,4 @@ struct ScheduledPayment {
 } // namespace bankeasy
 
 #endif // SCHEDULEDPAYMENT_H
+

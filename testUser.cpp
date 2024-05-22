@@ -1,11 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <limits>
 #include "Accounts.h"
 #include "Admin.h"
 #include "Personal.h"
 #include "Commercial.h"
-#include "Utils.h"
 
 using namespace bankeasy;
 
@@ -13,11 +11,11 @@ void addUserInput(Accounts* accounts) {
     std::string name, email, pin, accountType;
     Loan* loan = nullptr;
     std::cout << "Enter name: ";
-    name = getValidatedStringInput();
+    std::cin >> name;
     std::cout << "Enter email: ";
-    email = getValidatedEmailInput();
+    std::cin >> email;
     std::cout << "Enter PIN: ";
-    pin = getValidatedPinInput();
+    std::cin >> pin;
 
     if (accounts->type() == "Commercial") {
         accountType = "Commercial";
@@ -35,28 +33,31 @@ void performUserActions(User* user, Accounts* accounts) {
     do {
         std::cout << "Your balance: $" << user->getBalance() << "\n";
         std::cout << "1. Deposit\n2. Withdraw\n3. Schedule Payment\n4. Update Login Details\n5. Close Account\n6. Manage Cards\n7. Logout\nChoose an option: ";
-        action = getValidatedIntInput();
+        std::cin >> action;
         switch (action) {
             case 1:
                 std::cout << "Enter amount to deposit: ";
-                amount = getValidatedDoubleInput();
+                std::cin >> amount;
                 user->deposit(amount);
                 accounts->saveUsers();
                 break;
             case 2:
                 std::cout << "Enter amount to withdraw: ";
-                amount = getValidatedDoubleInput();
+                std::cin >> amount;
                 user->withdraw(amount);
                 accounts->saveUsers();
                 break;
             case 3: {
                 std::string purpose, frequency;
+                double amount;
                 std::cout << "Enter payment purpose: ";
-                purpose = getValidatedStringInput();
+                std::cin.ignore();
+                std::getline(std::cin, purpose);
                 std::cout << "Enter payment amount: ";
-                amount = getValidatedDoubleInput();
+                std::cin >> amount;
+                std::cin.ignore();
                 std::cout << "Enter payment frequency (biweekly/monthly): ";
-                frequency = getValidatedStringInput();
+                std::getline(std::cin, frequency);
                 user->schedulePayment(purpose, amount, frequency);
                 accounts->saveUsers();
                 break;
@@ -64,9 +65,9 @@ void performUserActions(User* user, Accounts* accounts) {
             case 4: {
                 std::string newEmail, newPin;
                 std::cout << "Enter new email: ";
-                newEmail = getValidatedEmailInput();
+                std::cin >> newEmail;
                 std::cout << "Enter new PIN: ";
-                newPin = getValidatedPinInput();
+                std::cin >> newPin;
                 user->updateLoginDetails(newEmail, newPin);
                 accounts->saveUsers();
                 break;
@@ -97,81 +98,67 @@ void adminActions(Admin& admin, Accounts* accounts) {
     int choice;
     std::string email;
     do {
-        std::cout << "1. View all users\n2. Delete a user\n3. Change interest rate\n4. Freeze transactions\n5. Unfreeze transactions\n6. Update Login Details\n7. Change User PIN\n8. Logout\nChoose an option: ";
-        choice = getValidatedIntInput();
+        std::cout << "1. View all users\n2. Delete a user\n3. Change interest rate\n4. Freeze transactions\n5. Unfreeze transactions\n6. Update Login Details\n7. Logout\nChoose an option: ";
+        std::cin >> choice;
         switch (choice) {
             case 1:
                 admin.viewAllUsers(users);
                 break;
             case 2:
                 std::cout << "Enter email of user to delete: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 admin.deleteUser(users, email);
                 accounts->saveUsers(); // Ensure users are saved after deletion
                 break;
             case 3:
                 double newRate;
                 std::cout << "Enter email of user to change interest rate: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 std::cout << "Enter new interest rate: ";
-                newRate = getValidatedDoubleInput();
+                std::cin >> newRate;
                 admin.changeInterestRate(users, email, newRate);
                 accounts->saveUsers();
                 break;
             case 4:
                 std::cout << "Enter email of user to freeze transactions: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 admin.freezeTransactions(users, email);
                 accounts->saveUsers();
                 break;
             case 5:
                 std::cout << "Enter email of user to unfreeze transactions: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 admin.unfreezeTransactions(users, email);
                 accounts->saveUsers();
                 break;
             case 6:
                 std::cout << "Enter email of user to update login details: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 admin.updateLoginDetails(users, email);
                 accounts->saveUsers();
                 break;
             case 7:
-                std::cout << "Enter email of user to change PIN: ";
-                email = getValidatedEmailInput();
-                admin.changePin(users, email);
-                accounts->saveUsers();
-                break;
-            case 8:
                 std::cout << "Logging out...\n\n";
                 break;
             default:
                 std::cout << "Invalid option. Please try again.\n\n";
         }
-    } while (choice != 8);
+    } while (choice != 7);
 }
 
 Accounts* loadAccounts() {
     std::ifstream inFile("accounts.dat");
-    Accounts* accounts = nullptr;
     if (inFile.is_open() && inFile.peek() != EOF) {
         std::string accountType;
-        while (std::getline(inFile, accountType)) {
-            if (accountType == "Commercial") {
-                if (accounts == nullptr) {
-                    accounts = new Commercial();
-                }
-                accounts->getUsers().push_back(User::load(inFile));
-            } else if (accountType == "Personal") {
-                if (accounts == nullptr) {
-                    accounts = new Personal();
-                }
-                accounts->getUsers().push_back(User::load(inFile));
-            }
+        std::getline(inFile, accountType);
+        inFile.close();
+        if (accountType == "Commercial") {
+            return new Commercial();
+        } else if (accountType == "Personal") {
+            return new Personal();
         }
     }
-    inFile.close();
-    return accounts;
+    return nullptr;
 }
 
 int main() {
@@ -184,7 +171,7 @@ int main() {
 
     do {
         std::cout << "1. Sign Up\n2. Log In\n3. Admin Login\n4. Exit\nChoose an option: ";
-        choice = getValidatedIntInput();
+        std::cin >> choice;
 
         switch (choice) {
             case 1: {
@@ -192,16 +179,13 @@ int main() {
                 std::cout << "1. Commercial\n";
                 std::cout << "2. Personal\n";
                 std::cout << "Enter your choice: ";
-                int accountChoice = getValidatedIntInput(); // Change variable name to avoid conflict
+                std::cin >> choice;
+                std::cin.ignore(); // To consume the newline character left in the input buffer
 
-                if (accountChoice == 1) {
-                    if (accounts == nullptr) {
-                        accounts = new Commercial();
-                    }
-                } else if (accountChoice == 2) {
-                    if (accounts == nullptr) {
-                        accounts = new Personal();
-                    }
+                if (choice == 1) {
+                    accounts = new Commercial();
+                } else if (choice == 2) {
+                    accounts = new Personal();
                 } else {
                     std::cout << "Invalid choice. Exiting account creation.\n\n";
                     break;
@@ -216,16 +200,15 @@ int main() {
                 }
                 std::string email, pin;
                 std::cout << "Enter email to login: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 std::cout << "Enter PIN: ";
-                pin = getValidatedPinInput();
+                std::cin >> pin;
 
                 User* user = accounts->login(email, pin);
                 if (user != nullptr) {
                     std::cout << "Welcome, " << user->getName() << "!\n";
                     std::cout << "Email: " << user->getEmail() << "\n";
                     std::cout << "Account Type: " << user->getAccountType() << "\n";
-                    std::cout << "Account Number: " << user->getAccountNumber() << "\n";
                     std::cout << "Balance: $" << user->getBalance() << "\n\n";
                     performUserActions(user, accounts);
                 } else {
@@ -237,9 +220,9 @@ int main() {
                 std::string email, password;
                 std::cout << "Admin Login\n";
                 std::cout << "Email: ";
-                email = getValidatedEmailInput();
+                std::cin >> email;
                 std::cout << "Password: ";
-                password = getValidatedStringInput();
+                std::cin >> password;
 
                 if (admin.getAdminEmail() == email && admin.authenticate(password)) {
                     std::cout << "Welcome, " << admin.getAdminName() << "!\n\n";

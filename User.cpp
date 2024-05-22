@@ -269,7 +269,7 @@ void User::manageCards() {
         choice = getValidatedIntInput();
         switch (choice) {
             case 1: {
-                std::string cardType, cardStart = "06/26", cardExpiry = "06/26";
+                std::string cardType, cardStart = "06/24", cardExpiry = "06/26";
                 long long int cardNumber = std::stoll(generateRandomCardNumber());
                 int cvv = generateRandomCVV();
                 double limit;
