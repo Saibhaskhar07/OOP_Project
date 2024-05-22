@@ -10,7 +10,6 @@ namespace bankeasy {
 class Admin {
 public:
     Admin(const std::string& adminName, const std::string& adminEmail, const std::string& adminPassword);
-
     std::string getAdminName() const;
     std::string getAdminEmail() const;
     bool authenticate(const std::string& adminPassword) const;
@@ -20,7 +19,6 @@ public:
     void freezeTransactions(std::vector<User>& users, const std::string& email);
     void unfreezeTransactions(std::vector<User>& users, const std::string& email);
     void updateLoginDetails(std::vector<User>& users, const std::string& email);
-    void changePin(std::vector<User>& users, const std::string& email);
 
 private:
     std::string adminName;

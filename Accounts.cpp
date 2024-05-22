@@ -1,14 +1,51 @@
 #include "Accounts.h"
-#include "User.h"
 #include <fstream>
 #include <iostream>
-#include <algorithm>
 
 namespace bankeasy {
 
-Accounts::Accounts() {}
+Accounts::Accounts() {
+    loadUsers();
+}
 
-Accounts::~Accounts() {}
+Accounts::~Accounts() {
+    saveUsers();
+}
+
+void Accounts::addUser(const User& user) {
+    users.push_back(user);
+    saveUsers();
+    std::cout << "Account created successfully.\n\n";
+}
+
+User* Accounts::login(const std::string& email, const std::string& pin) {
+    for (User& user : users) {
+        if (user.getEmail() == email && user.getPin() == pin) {
+            user.processScheduledPayments();
+            saveUsers();
+            return &user;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<User>& Accounts::getUsers() {
+    return users;
+}
+
+void Accounts::deleteUser(const std::string& email) {
+    auto it = std::remove_if(users.begin(), users.end(),
+        [&email](const User& user) {
+            return user.getEmail() == email;
+        });
+    if (it != users.end()) {
+        users.erase(it, users.end());
+        saveUsers();
+        std::cout << "User deleted successfully.\n\n";
+    } else {
+        std::cout << "User not found.\n\n";
+    }
+}
 
 void Accounts::loadUsers() {
     std::ifstream inFile("accounts.dat");
@@ -23,38 +60,8 @@ void Accounts::loadUsers() {
     }
 }
 
-
-
-
-std::vector<User>& Accounts::getUsers() {   
-    return users;
-}
-
-void Accounts::addUser(const User& user) {
-    users.push_back(user);
-    saveUsers(); // Save the user immediately after adding
-}
-
-User* Accounts::login(const std::string& email, const std::string& pin) {
-    for (auto& user : users) {
-        if (user.getEmail() == email && user.getPin() == pin) {
-            return &user;
-        }
-    }
-    return nullptr;
-}
-
-void Accounts::deleteUser(const std::string& email) {
-    auto it = std::remove_if(users.begin(), users.end(), [&email](const User& user) {
-        return user.getEmail() == email;
-    });
-    users.erase(it, users.end());
-    saveUsers(); // Save the users immediately after deletion
-}
-
-void Accounts::saveUsers() const
-{
-    std::ofstream outFile("accounts.dat",std::ios::app);
+void Accounts::saveUsers() {
+    std::ofstream outFile("accounts.dat");
     if (outFile.is_open()) {
         if (!users.empty()) {
             outFile << users.front().getAccountType() << '\n';
