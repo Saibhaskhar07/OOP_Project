@@ -4,27 +4,27 @@
 #include <iostream>
 #include "Utils.h"  // Assuming Utils.h has the validation functions
 
-namespace bankeasy {
+namespace bankeasy { // Define namespace bankeasy
 
-Personal::Personal() : Accounts() {}
+Personal::Personal() : Accounts() {} // Constructor initializes base Accounts class
 
 std::string Personal::type() const {
-    return "Personal";
+    return "Personal"; // Return Loan type
 }
 
 std::string Personal::chooseAccountType(Loan*& loan) {
     int choice;
     std::cout << "Choose account type:\n1. Savings\n2. Current\n3. Loan\n4. Exit\nEnter your choice: ";
-    choice = getValidatedIntInput();
+    choice = getValidatedIntInput(); // Get a validated input
     
-    if (choice == 1) {
+    if (choice == 1) { // Savings account
         return "Savings";
-    } else if (choice == 2) {
+    } else if (choice == 2) { // Current account
         std::string businessCategory;
         std::cout << "Enter business category: ";
         businessCategory = getValidatedStringInput();
         return "Current";
-    } else if (choice == 3) {
+    } else if (choice == 3) { // Loan account
         double amount;
         int tenure;
         std::cout << "Enter loan amount: ";
@@ -33,7 +33,7 @@ std::string Personal::chooseAccountType(Loan*& loan) {
         tenure = getValidatedIntInput();
         std::cout << "Choose loan type:\n1. Personal Loan\n2. Student Loan\nEnter your choice: ";
         int loanChoice = getValidatedIntInput();
-        if (loanChoice == 1) {
+        if (loanChoice == 1) { // Personal Loan
             std::string purpose;
             std::cout << "Enter purpose: ";
             purpose = getValidatedStringInput();
@@ -41,7 +41,7 @@ std::string Personal::chooseAccountType(Loan*& loan) {
             loan->displayRequiredDocuments();
             loan->calculateEMI();
             return "Personal Loan";
-        } else if (loanChoice == 2) {
+        } else if (loanChoice == 2) { // Student Loan
             std::string course, placeOfStudy;
             std::cout << "Enter course: ";
             course = getValidatedStringInput();
@@ -51,14 +51,14 @@ std::string Personal::chooseAccountType(Loan*& loan) {
             loan->displayRequiredDocuments();
             loan->calculateEMI();
             return "Student Loan";
-        } else {
+        } else { // Neither choices
             std::cout << "Invalid loan type. Exiting.\n";
             return "No Loan";
         }
-    } else {
+    } else { // Invalid choice
         std::cout << "Invalid choice. Exiting.\n";
         return "No Loan";
     }
 }
 
-} // namespace bankeasy
+} //end of namespace bankeasy
