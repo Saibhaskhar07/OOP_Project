@@ -5,16 +5,16 @@
 #include "Loan.h"
 #include <string>
 
-namespace bankeasy {
+namespace bankeasy { // Define namespace bankeasy
 
-class Personal : public Accounts {
+class Personal : public Accounts { // Define Personal class inheriting from Accounts
 public:
-    Personal();
-    std::string type() const override;
+    Personal(); // Constructor
+    std::string type() const override; // Override function to return account type
     static std::string chooseAccountType(Loan*& loan);
 
 private:
-    std::string accountType;
+    std::string accountType; // Account type
 };
 
 } // namespace bankeasy
