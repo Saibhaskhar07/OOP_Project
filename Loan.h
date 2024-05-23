@@ -3,13 +3,14 @@
 
 #include <string>
 
-namespace bankeasy {
+namespace bankeasy { // start of namespace bankeasy
 
-class Loan {
+class Loan : public Personal{
 public:
     Loan(double amount, int tenure);
-    virtual ~Loan() = default;
+    virtual ~Loan() = default; // Constructor initializes with given loan information
 
+// Get loan information and calculate rates
     double getAmount() const;
     int getTenure() const;
     virtual std::string getLoanType() const = 0;
@@ -23,6 +24,6 @@ protected:
     double interestRate;
 };
 
-} // namespace bankeasy
+} // end of namespace bankeasy
 
 #endif // LOAN_H

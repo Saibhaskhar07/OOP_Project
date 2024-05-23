@@ -3,11 +3,12 @@
 
 #include <string>
 
-namespace bankeasy {
+namespace bankeasy { // start ofg the namespace bankeasy
 
-class Cards {
+class Cards { // Define Card class
 public:
-    Cards(const std::string& type, long long int number, const std::string& start, const std::string& expiry, int cvv, double limit);
+    Cards(const std::string& type, long long int number, const std::string& start, const std::string& expiry, int cvv, double limit); // constructor
+    // Get card parameters
     std::string getType() const;
     long long int getNumber() const;
     std::string getStart() const;
@@ -18,6 +19,7 @@ public:
     void activateCard();
     void deactivateCard();
     void updateLimit(double newLimit);
+    // Display the card parameters
     void displayCardDetails() const;
 
 private:
@@ -30,6 +32,6 @@ private:
     bool active;
 };
 
-} // namespace bankeasy
+} // end of namespace bankeasy
 
 #endif // CARDS_H

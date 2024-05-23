@@ -2,15 +2,15 @@
 #include <iostream>
 #include "Utils.h"
 
-namespace bankeasy {
+namespace bankeasy { // Define namespace bankeasy
 
-Commercial::Commercial() : Accounts() {}
+Commercial::Commercial() : Accounts() {} // Constructor initializes base Accounts class
 
 std::string Commercial::type() const {
-    return "Commercial";
+    return "Commercial"; // Return the account type as commercial
 }
 
-void Commercial::bookAppointment() const {
+void Commercial::bookAppointment() const { // For making a prompt requesting to book appointment
     std::string date, time;
     std::cout << "Enter appointment date (YYYY-MM-DD): ";
     date = getValidatedDateInput();
@@ -19,4 +19,4 @@ void Commercial::bookAppointment() const {
     std::cout << "Appointment booked for " << date << " at " << time << ".\n";
 }
 
-} // namespace bankeasy
+} // end of namespace bankeasy

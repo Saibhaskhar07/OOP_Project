@@ -13,6 +13,7 @@ using namespace bankeasy;
 
 class BankEasyApp {
 public:
+    // Access to a commerical account 
     void addUserInput(Accounts* accounts) {
         std::string name, email, pin, accountType;
         Loan* loan = nullptr;
@@ -33,6 +34,7 @@ public:
         }
     }
 
+    // Actions a user can perform 
     void performUserActions(User* user, Accounts* accounts) {
         int action;
         double amount;
@@ -116,6 +118,7 @@ public:
         } while (action != 7);
     }
 
+    // actions an admin can perform 
     void adminActions(Admin& admin, Accounts* accounts) {
         if (accounts == nullptr) {
             std::cout << "No accounts available.\n\n";
@@ -183,7 +186,7 @@ public:
         } while (choice != 7);
     }
 
-    Accounts* loadAccounts() {
+    Accounts* loadAccounts() { // Load accounts and choose account typey
         std::ifstream inFile("accounts.dat");
         if (inFile.is_open() && inFile.peek() != EOF) {
             std::string accountType;
@@ -198,7 +201,7 @@ public:
         return nullptr;
     }
 
-    void run() {
+    void run() { //Executes the entire program
         std::cout << "Welcome to BankEasy!\n\n";
         loading l1;
         l1.print();
