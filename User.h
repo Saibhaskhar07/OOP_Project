@@ -11,9 +11,9 @@
 namespace bankeasy {
 
 class User {
-public:
+public:// Constructor: Initializes user object with provided details
     User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan = nullptr);
-    ~User();
+    ~User();// Destructor: Cleans up memory allocated for loan object
 
     std::string getName() const;
     std::string getEmail() const;
@@ -21,6 +21,8 @@ public:
     double getBalance() const;
     std::string getAccountType() const;
     std::string getAccountNumber() const;  // Added function declaration
+
+// Functions to run the entirety of the program
 
     void deposit(double amount);
     void withdraw(double amount);
