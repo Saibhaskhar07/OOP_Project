@@ -28,7 +28,7 @@ std::string generateRandomCardNumber() {
 int generateRandomCVV() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(100, 999);
+    std::uniform_int_distribution<> dis(100, 999);// Define uniform distribution for 3-digit numbers
     return dis(gen);
 }
 
@@ -36,61 +36,65 @@ int generateRandomCVV() {
 std::string generateAccountNumber() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<long long> dis(1000000000LL, 9999999999LL);
+    std::uniform_int_distribution<long long> dis(1000000000LL, 9999999999LL);// Define uniform distribution for 10-digit numbers
 
     std::ostringstream oss;
     oss << dis(gen);
     return oss.str();
 }
 
+// Constructor for User class
 User::User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan)
     : name(name), email(email), pin(pin), balance(loan ? loan->getAmount() : 0), accountType(accountType), loan(loan), transactionsFrozen(false), accountNumber(generateAccountNumber()) {}
 
+// Destructor for User class
 User::~User() {
     delete loan;
 }
 
+// Getter for user's name
 std::string User::getName() const {
     return name;
 }
 
-std::string User::getEmail() const {
+std::string User::getEmail() const {// Getter for user's email
     return email;
 }
 
-std::string User::getPin() const {
+std::string User::getPin() const {// Getter for user's PIN
     return pin;
 }
 
-double User::getBalance() const {
+double User::getBalance() const {// Getter for user's balance
     return balance;
 }
 
-std::string User::getAccountType() const {
+std::string User::getAccountType() const {// Getter for user's account type
     return accountType;
 }
 
-std::string User::getAccountNumber() const {
+std::string User::getAccountNumber() const {// Getter for user's account number
     return accountNumber;
 }
 
+// Function to deposit money into user's account
 void User::deposit(double amount) {
     if (transactionsFrozen) {
-        std::cout << "Transactions are frozen for this account.\n\n";
+        std::cout << "Transactions are frozen for this account.\n\n";// Print message if transactions are frozen
         return;
     }
-    if (amount > 0) {
+    if (amount > 0) { // Check if amount is valid
         balance += amount;
         std::cout << "Deposited successfully.\n\n";
     }
 }
 
-void User::withdraw(double amount) {
-    if (transactionsFrozen) {
+void User::withdraw(double amount) {// Function to withdraw money from user's account
+    if (transactionsFrozen) { // Check if transactions are frozen
         std::cout << "Transactions are frozen for this account.\n\n";
         return;
     }
-    if (amount > 0 && amount <= balance) {
+    if (amount > 0 && amount <= balance) {// Check if withdrawal amount is valid
         balance -= amount;
         std::cout << "Withdrawn successfully.\n\n";
     } else {
@@ -98,11 +102,11 @@ void User::withdraw(double amount) {
     }
 }
 
-void User::save(std::ofstream& out) const {
+void User::save(std::ofstream& out) const {// Function to save user details to file
     out << name << '\n' << email << '\n' << pin << '\n' << balance << '\n' << accountType << '\n' << accountNumber << '\n';
-    if (loan) {
+    if (loan) {// Write loan details if loan exists
         out << loan->getLoanType() << '\n' << loan->getAmount() << '\n' << loan->getTenure() << '\n';
-        if (loan->getLoanType() == "Student Loan") {
+        if (loan->getLoanType() == "Student Loan") {// Write additional details for specific loan types
             StudentLoan* studentLoan = dynamic_cast<StudentLoan*>(loan);
             out << studentLoan->getCourse() << '\n' << studentLoan->getPlaceOfStudy() << '\n';
         } else if (loan->getLoanType() == "Personal Loan") {
@@ -112,19 +116,23 @@ void User::save(std::ofstream& out) const {
     } else {
         out << "No Loan\n";
     }
+    
+    // Write transaction freeze status
     out << transactionsFrozen << '\n';
     out << scheduledPayments.size() << '\n';
     for (const auto& payment : scheduledPayments) {
         out << payment.purpose << '\n' << payment.amount << '\n' << payment.frequency << '\n';
     }
+    
+    // Write card details
     out << cards.size() << '\n';
     for (const auto& card : cards) {
         out << card.getType() << '\n' << card.getNumber() << '\n' << card.getStart() << '\n' << card.getExpiry() << '\n' << card.getCVV() << '\n' << card.getLimit() << '\n' << card.getStatus() << '\n';
     }
 }
 
-User User::load(std::ifstream& in) {
-    std::string name, email, pin, accountType, loanType, accountNumber;
+User User::load(std::ifstream& in) {// Function to load user details from file
+    std::string name, email, pin, accountType, loanType, accountNumber;// Read user details from file
     double balance, amount;
     int tenure, numPayments, numCards;
     bool transactionsFrozen;
@@ -137,7 +145,7 @@ User User::load(std::ifstream& in) {
     std::getline(in, accountNumber);
     std::getline(in, loanType);
     Loan* loan = nullptr;
-    if (loanType != "No Loan") {
+    if (loanType != "No Loan") { // Read loan details if available
         in >> amount >> tenure;
         in.ignore();
         if (loanType == "Student Loan") {
@@ -151,12 +159,13 @@ User User::load(std::ifstream& in) {
             loan = new PersonalLoan(amount, tenure, purpose);
         }
     }
-    User user(name, email, pin, accountType, loan);
+    User user(name, email, pin, accountType, loan);// Create user object with loaded details
     user.balance = balance;
     user.accountNumber = accountNumber;
     in >> transactionsFrozen;
     user.transactionsFrozen = transactionsFrozen;
     in.ignore();
+    // Read scheduled payments
     in >> numPayments;
     in.ignore();
     for (int i = 0; i < numPayments; ++i) {
@@ -167,6 +176,7 @@ User User::load(std::ifstream& in) {
         std::getline(in, payment.frequency);
         user.scheduledPayments.push_back(payment);
     }
+     // Read card details
     in >> numCards;
     in.ignore();
     for (int i = 0; i < numCards; ++i) {
@@ -194,35 +204,35 @@ User User::load(std::ifstream& in) {
         }
         user.cards.push_back(card);
     }
-    return user;
+    return user; // Return loaded user object
 }
 
-void User::changeInterestRate(double newRate) {
-    if (loan) {
+void User::changeInterestRate(double newRate) {// Function to change interest rate of user's loan
+    if (loan) {// Change interest rate if loan exists
         loan->changeInterestRate(newRate);
     }
 }
 
-void User::freezeTransactions() {
-    transactionsFrozen = true;
+void User::freezeTransactions() {// Function to freeze transactions for user's account
+    transactionsFrozen = true;// Set transactionsFrozen flag to true
 }
 
-void User::unfreezeTransactions() {
-    transactionsFrozen = false;
+void User::unfreezeTransactions() {// Function to unfreeze transactions for user's account
+    transactionsFrozen = false; // Set transactionsFrozen flag to false
 }
-
+// Function to update user's login details
 void User::updateLoginDetails(const std::string& newEmail, const std::string& newPin) {
-    email = newEmail;
-    pin = newPin;
+    email = newEmail; // Update email
+    pin = newPin; // Update PIN
 }
 
-void User::processScheduledPayments() {
+void User::processScheduledPayments() {// Function to process scheduled payments for user
     if (scheduledPayments.empty()) {
-        return;
+        return;// If no scheduled payments, return
     }
-    std::time_t now = std::time(nullptr);
-    for (const auto& payment : scheduledPayments) {
-        if (payment.frequency == "monthly") {
+    std::time_t now = std::time(nullptr);// Get current time
+    for (const auto& payment : scheduledPayments) {// Process each scheduled payment
+        if (payment.frequency == "monthly") { // Deduct payment amount based on frequency
             balance -= payment.amount;
         } else if (payment.frequency == "biweekly") {
             balance -= payment.amount / 2;
@@ -231,8 +241,9 @@ void User::processScheduledPayments() {
     }
 }
 
+// Function to update user details
 void User::updateDetails(const std::string& detailType, const std::string& newValue) {
-    if (detailType == "name") {
+    if (detailType == "name") { // Update details based on type
         name = newValue;
     } else if (detailType == "email") {
         email = newValue;
@@ -243,7 +254,7 @@ void User::updateDetails(const std::string& detailType, const std::string& newVa
     }
 }
 
-void User::statements() const {
+void User::statements() const {// Function to display transaction statements for user
     std::cout << "Transaction statements for " << name << ":\n";
     for (const auto& payment : scheduledPayments) {
         std::cout << "Payment for: " << payment.purpose << ", Amount: $" << payment.amount << ", Frequency: " << payment.frequency << "\n";
@@ -251,19 +262,21 @@ void User::statements() const {
     std::cout << "\n";
 }
 
+// Function to schedule a payment for user
 void User::schedulePayment(const std::string& purpose, double amount, const std::string& frequency) {
-    ScheduledPayment payment{purpose, amount, frequency};
+    ScheduledPayment payment{purpose, amount, frequency};// Create a scheduled payment object and add to list
     scheduledPayments.push_back(payment);
     std::cout << "Scheduled payment added successfully.\n\n";
 }
 
-void User::addCard(const Cards& card) {
+void User::addCard(const Cards& card) { // Function to add a card to user's account
     cards.push_back(card);
     std::cout << "Card added successfully.\n\n";
 }
 
-void User::manageCards() {
+void User::manageCards() { // Function to manage user's cards
     int choice;
+    // Display card management menu
     do {
         std::cout << "1. Add Card\n2. Activate Card\n3. Deactivate Card\n4. Update Card Limit\n5. View Card Details\n6. Exit\nChoose an option: ";
         choice = getValidatedIntInput();
@@ -340,9 +353,9 @@ void User::manageCards() {
                 std::cout << "Exiting card management...\n\n";
                 break;
             default:
-                std::cout << "Invalid option. Please try again.\n\n";
+                std::cout << "Invalid option. Please try again.\n\n";  // Print message for invalid option
         }
-    } while (choice != 6);
+    } while (choice != 6); Repeat until user chooses to exit
 }
 
 } // namespace bankeasy
