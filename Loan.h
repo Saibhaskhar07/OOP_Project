@@ -1,28 +1,28 @@
-#ifndef LOAN_H // Header guard to prevent multiple inclusion
+#ifndef LOAN_H
 #define LOAN_H
 
-#include <string> // Include necessary header files
+#include <string>
 
-namespace bankeasy { // Begin namespace bankeasy
+namespace bankeasy {
 
-class Loan { // Declare Loan class
-public: // Public access specifier
-    Loan(double amount, int tenure); // Constructor
-    virtual ~Loan() = default; // Virtual destructor
+class Loan {
+public:
+    Loan(double amount, int tenure);
+    virtual ~Loan() = default;
 
-    double getAmount() const; // Getter method for loan amount
-    int getTenure() const; // Getter method for loan tenure
-    virtual std::string getLoanType() const = 0; // Pure virtual method to get loan type
-    virtual void changeInterestRate(double newRate) = 0; // Pure virtual method to change interest rate
-    virtual void displayRequiredDocuments() const = 0; // Pure virtual method to display required documents
-    virtual void calculateEMI() const = 0; // Pure virtual method to calculate EMI
+    double getAmount() const;
+    int getTenure() const;
+    virtual std::string getLoanType() const = 0;
+    virtual void changeInterestRate(double newRate) = 0;
+    virtual void displayRequiredDocuments() const = 0;
+    virtual void calculateEMI() const = 0;
 
-protected: // Protected access specifier
-    double amount; // Member variable for loan amount
-    int tenure; // Member variable for loan tenure
-    double interestRate; // Member variable for loan interest rate
+protected:
+    double amount;
+    int tenure;
+    double interestRate;
 };
 
-} // End namespace bankeasy
+} // namespace bankeasy
 
-#endif // End of header guard and file
+#endif // LOAN_H

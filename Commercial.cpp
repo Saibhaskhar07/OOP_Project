@@ -1,22 +1,22 @@
-#include "Commercial.h" // Include header file for Commercial class
-#include <iostream> // Include necessary header files
-#include "Utils.h" // Include header file for utility functions
+#include "Commercial.h"
+#include <iostream>
+#include "Utils.h"
 
-namespace bankeasy { // Begin namespace bankeasy
+namespace bankeasy {
 
-Commercial::Commercial() : Accounts() {} // Constructor for Commercial class
+Commercial::Commercial() : Accounts() {}
 
-std::string Commercial::type() const { // Method to return account type
-    return "Commercial"; // Return Commercial account type
+std::string Commercial::type() const {
+    return "Commercial";
 }
 
-void Commercial::bookAppointment() const { // Method to book appointment
-    std::string date, time; // Declare variables for date and time
-    std::cout << "Enter appointment date (YYYY-MM-DD): "; // Prompt for appointment date
-    date = getValidatedDateInput(); // Get validated date input
-    std::cout << "Enter appointment time (HH:MM): "; // Prompt for appointment time
-    time = getValidatedTimeInput(); // Get validated time input
-    std::cout << "Appointment booked for " << date << " at " << time << ".\n"; // Print booking confirmation
+void Commercial::bookAppointment() const {
+    std::string date, time;
+    std::cout << "Enter appointment date (YYYY-MM-DD): ";
+    date = getValidatedDateInput();
+    std::cout << "Enter appointment time (HH:MM): ";
+    time = getValidatedTimeInput();
+    std::cout << "Appointment booked for " << date << " at " << time << ".\n";
 }
 
-} // End namespace bankeasy
+} // namespace bankeasy

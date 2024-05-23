@@ -1,22 +1,22 @@
-#ifndef PERSONAL_H // Header guard to prevent multiple inclusion
+#ifndef PERSONAL_H
 #define PERSONAL_H
 
-#include "Accounts.h" // Include header file for Accounts class
-#include "Loan.h" // Include header file for Loan class
-#include <string> // Include necessary header files
+#include "Accounts.h"
+#include "Loan.h"
+#include <string>
 
-namespace bankeasy { // Begin namespace bankeasy
+namespace bankeasy {
 
-class Personal : public Accounts { // Declare Personal class as derived from Accounts class
-public: // Public access specifier
-    Personal(); // Constructor for Personal class
-    std::string type() const override; // Override method to return account type
-    static std::string chooseAccountType(Loan*& loan); // Static method to choose account type
+class Personal : public Accounts {
+public:
+    Personal();
+    std::string type() const override;
+    static std::string chooseAccountType(Loan*& loan);
 
-private: // Private access specifier
-    std::string accountType; // Member variable for account type
+private:
+    std::string accountType;
 };
 
-} // End namespace bankeasy
+} // namespace bankeasy
 
-#endif // End of header guard and file
+#endif // PERSONAL_H

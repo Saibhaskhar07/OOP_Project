@@ -1,50 +1,59 @@
-#include <string>
-std::string Cards::getType() const { // Method to get card type
-    return type; // Return card type
+#include "Cards.h"
+#include <iostream>
+
+namespace bankeasy {
+
+Cards::Cards(const std::string& type, long long int number, const std::string& start, const std::string& expiry, int cvv, double limit)
+    : type(type), number(number), start(start), expiry(expiry), cvv(cvv), limit(limit), active(false) {}
+
+std::string Cards::getType() const {
+    return type;
 }
 
-long long int Cards::getNumber() const { // Method to get card number
-    return number; // Return card number
+long long int Cards::getNumber() const {
+    return number;
 }
 
-std::string Cards::getStart() const { // Method to get card start date
-    return start; // Return start date
+std::string Cards::getStart() const {
+    return start;
 }
 
-std::string Cards::getExpiry() const { // Method to get card expiry date
-    return expiry; // Return expiry date
+std::string Cards::getExpiry() const {
+    return expiry;
 }
 
-int Cards::getCVV() const { // Method to get card CVV
-    return cvv; // Return CVV
+int Cards::getCVV() const {
+    return cvv;
 }
 
-double Cards::getLimit() const { // Method to get card limit
-    return limit; // Return limit
+double Cards::getLimit() const {
+    return limit;
 }
 
-bool Cards::getStatus() const { // Method to get card status
-    return active; // Return status
+bool Cards::getStatus() const {
+    return active;
 }
 
-void Cards::activateCard() { // Method to activate card
-    active = true; // Set active to true
+void Cards::activateCard() {
+    active = true;
 }
 
-void Cards::deactivateCard() { // Method to deactivate card
-    active = false; // Set active to false
+void Cards::deactivateCard() {
+    active = false;
 }
 
-void Cards::updateLimit(double newLimit) { // Method to update card limit
-    limit = newLimit; // Update limit
+void Cards::updateLimit(double newLimit) {
+    limit = newLimit;
 }
 
-void Cards::displayCardDetails() const { // Method to display card details
-    std::cout << "Card Type: " << type << "\n" // Print card type
-              << "Card Number: " << number << "\n" // Print card number
-              << "Start Date: " << start << "\n" // Print start date
-              << "Expiry Date: " << expiry << "\n" // Print expiry date
-              << "CVV: " << cvv << "\n" // Print CVV
-              << "Limit: " << limit << "\n" // Print limit
-              << "Active: " << (active ? "Yes" : "No") << "\n\n"; // Print active status
-} ;
+void Cards::displayCardDetails() const {
+    std::cout << "Card Type: " << type << "\n"
+              << "Card Number: " << number << "\n"
+              << "Start Date: " << start << "\n"
+              << "Expiry Date: " << expiry << "\n"
+              << "CVV: " << cvv << "\n"
+              << "Limit: " << limit << "\n"
+              << "Active: " << (active ? "Yes" : "No") << "\n\n";
+}
+
+} // namespace bankeasy

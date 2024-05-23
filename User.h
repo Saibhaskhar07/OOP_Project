@@ -1,70 +1,53 @@
 #ifndef USER_H
 #define USER_H
 
-#include "StudentLoan.h"
-#include "PersonalLoan.h"
+#include <string>
+#include <vector>
+#include "Loan.h"
+#include "Cards.h"
 #include "ScheduledPayment.h"
 #include "Utils.h"
-#include <fstream>
-#include <iostream>
-#include <ctime>
-#include <random>
-#include <sstream>
-#include "Cards.h"
 
 namespace bankeasy {
 
-// Function to generate a random 16-digit card number
-std::string generateRandomCardNumber();
-
-// Function to generate a random 3-digit CVV number
-int generateRandomCVV();
-
-// Function to generate a random account number
-std::string generateAccountNumber();
-
 class User {
 public:
-    // Constructor with parameters including a loan pointer
-    User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan);
-    // Destructor
+    User(const std::string& name, const std::string& email, const std::string& pin, const std::string& accountType, Loan* loan = nullptr);
     ~User();
 
-    std::string getName() const; // Getter for name
-    std::string getEmail() const; // Getter for email
-    std::string getPin() const; // Getter for pin
-    double getBalance() const; // Getter for balance
-    std::string getAccountType() const; // Getter for account type
-    std::string getAccountNumber() const; // Getter for account number
+    std::string getName() const;
+    std::string getEmail() const;
+    std::string getPin() const;
+    double getBalance() const;
+    std::string getAccountType() const;
+    std::string getAccountNumber() const;  // Added function declaration
 
-    void deposit(double amount); // Function to deposit money
-    void withdraw(double amount); // Function to withdraw money
-
-    void save(std::ofstream& out) const; // Function to save user data to file
-    static User load(std::ifstream& in); // Static function to load user data from file
-
-    void changeInterestRate(double newRate); // Function to change loan interest rate
-    void freezeTransactions(); // Function to freeze transactions
-    void unfreezeTransactions(); // Function to unfreeze transactions
-    void updateLoginDetails(const std::string& newEmail, const std::string& newPin); // Function to update login details
-    void processScheduledPayments(); // Function to process scheduled payments
-    void updateDetails(const std::string& detailType, const std::string& newValue); // Function to update user details
-    void statements() const; // Function to display transaction statements
-    void schedulePayment(const std::string& purpose, double amount, const std::string& frequency); // Function to schedule payment
-    void addCard(const Cards& card); // Function to add a card
-    void manageCards(); // Function to manage user's cards
+    void deposit(double amount);
+    void withdraw(double amount);
+    void save(std::ofstream& out) const;
+    static User load(std::ifstream& in);
+    void changeInterestRate(double newRate);
+    void freezeTransactions();
+    void unfreezeTransactions();
+    void updateLoginDetails(const std::string& newEmail, const std::string& newPin);
+    void processScheduledPayments();
+    void updateDetails(const std::string& detailType, const std::string& newValue);
+    void statements() const;
+    void schedulePayment(const std::string& purpose, double amount, const std::string& frequency);
+    void addCard(const Cards& card);
+    void manageCards();
 
 private:
-    std::string name; // Member variable for name
-    std::string email; // Member variable for email
-    std::string pin; // Member variable for pin
-    double balance; // Member variable for balance
-    std::string accountType; // Member variable for account type
-    Loan* loan; // Member variable for loan
-    bool transactionsFrozen; // Member variable to track transaction freeze
-    std::string accountNumber; // Member variable for account number
-    std::vector<ScheduledPayment> scheduledPayments; // Member variable for scheduled payments
-    std::vector<Cards> cards; // Member variable for cards
+    std::string name;
+    std::string email;
+    std::string pin;
+    double balance;
+    std::string accountType;
+    std::string accountNumber;  // Added data member
+    Loan* loan;
+    bool transactionsFrozen;
+    std::vector<ScheduledPayment> scheduledPayments;
+    std::vector<Cards> cards;
 };
 
 } // namespace bankeasy

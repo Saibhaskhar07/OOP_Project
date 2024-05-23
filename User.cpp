@@ -8,7 +8,6 @@
 #include <ctime>
 #include <random>
 #include <sstream>
-#include "Cards.h"
 
 namespace bankeasy {
 
@@ -273,7 +272,7 @@ void User::manageCards() {
                 std::string cardType, cardStart = "06/24", cardExpiry = "06/26";
                 long long int cardNumber = std::stoll(generateRandomCardNumber());
                 int cvv = generateRandomCVV();
-                double limit;
+                double limit = 1000.00;
                 std::cout << "Enter card type (Debit or Credit): ";
                 cardType = getValidatedStringInput();
                 Cards card(cardType, cardNumber, cardStart, cardExpiry, cvv, limit);
@@ -347,4 +346,3 @@ void User::manageCards() {
 }
 
 } // namespace bankeasy
-

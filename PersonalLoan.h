@@ -1,24 +1,24 @@
-#ifndef PERSONALLOAN_H // Header guard to prevent multiple inclusion
+#ifndef PERSONALLOAN_H
 #define PERSONALLOAN_H
 
-#include "Loan.h" // Include header file for Loan class
-#include <string> // Include necessary header files
+#include "Loan.h"
+#include <string>
 
-namespace bankeasy { // Begin namespace bankeasy
+namespace bankeasy {
 
-class PersonalLoan : public Loan { // Declare PersonalLoan class as derived from Loan class
-public: // Public access specifier
-    PersonalLoan(double amount, int tenure, const std::string& purpose); // Constructor for PersonalLoan class
-    std::string getLoanType() const override; // Override method to return loan type
-    std::string getPurpose() const; // Method to return loan purpose
-    void changeInterestRate(double newRate) override; // Override method to change interest rate
-    void displayRequiredDocuments() const override; // Override method to display required documents
-    void calculateEMI() const override; // Override method to calculate EMI
+class PersonalLoan : public Loan {
+public:
+    PersonalLoan(double amount, int tenure, const std::string& purpose);
+    std::string getLoanType() const override;
+    std::string getPurpose() const;
+    void changeInterestRate(double newRate) override;
+    void displayRequiredDocuments() const override;
+    void calculateEMI() const override;
 
-private: // Private access specifier
-    std::string purpose; // Member variable for loan purpose
+private:
+    std::string purpose;
 };
 
-} // End namespace bankeasy
+} // namespace bankeasy
 
-#endif // End of header guard and file
+#endif // PERSONALLOAN_H

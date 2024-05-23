@@ -1,22 +1,22 @@
-#ifndef COMMERCIAL_H // Header guard to prevent multiple inclusion
+#ifndef COMMERCIAL_H
 #define COMMERCIAL_H
 
-#include "Accounts.h" // Include necessary header files
-#include <string> // Include necessary header files
+#include "Accounts.h"
+#include <string>
 
-namespace bankeasy { // Begin namespace bankeasy
+namespace bankeasy {
 
-class Commercial : public Accounts { // Declare Commercial class inheriting from Accounts
-public: // Public access specifier
-    Commercial(); // Constructor
-    std::string type() const override; // Override method to return account type
-    void bookAppointment() const; // Method to book appointment
+class Commercial : public Accounts {
+public:
+    Commercial();
+    std::string type() const override;
+    void bookAppointment() const;
 
-private: // Private access specifier
-    std::string date; // Member variable for appointment date
-    std::string time; // Member variable for appointment time
+private:
+    std::string date;
+    std::string time;
 };
 
-} // End namespace bankeasy
+} // namespace bankeasy
 
-#endif // End of header guard and file
+#endif // COMMERCIAL_H
