@@ -10,16 +10,17 @@
 
 namespace bankeasy {
 
-inline void clearInputStream() {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+inline void clearInputStream() {// Function to clear input stream
+    std::cin.clear();Clear error flags
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');// Ignore remaining characters in the input buffer
 }
 
+// Function to get validated string input from user
 inline std::string getValidatedStringInput() {
     std::string input;
-    while (true) {
+    while (true) {// Repeat until valid non-empty input is received
         std::getline(std::cin, input);
-        if (!input.empty()) {
+        if (!input.empty()) {// Check if input is not empty
             break;
         }
         std::cout << "Invalid input. Please enter a valid string: ";
@@ -27,10 +28,11 @@ inline std::string getValidatedStringInput() {
     return input;
 }
 
-inline std::string getValidatedEmailInput() {
+inline std::string getValidatedEmailInput() { // Function to get validated email input from user
     std::string email;
     std::regex emailRegex(R"(^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$)");
-    while (true) {
+    // Regular expression pattern for email validation
+    while (true) {// Repeat until valid email input is received
         std::getline(std::cin, email);
         if (std::regex_match(email, emailRegex)) {
             break;
@@ -40,10 +42,10 @@ inline std::string getValidatedEmailInput() {
     return email;
 }
 
-inline std::string getValidatedPinInput() {
+inline std::string getValidatedPinInput() {// Function to get validated PIN input from user
     std::string pin;
     std::regex pinRegex(R"(\d{4})");
-    while (true) {
+    while (true) { // Repeat until valid PIN input is received
         std::getline(std::cin, pin);
         if (std::regex_match(pin, pinRegex)) {
             break;
@@ -53,6 +55,7 @@ inline std::string getValidatedPinInput() {
     return pin;
 }
 
+// Function to get validated integer input from user
 inline int getValidatedIntInput() {
     int input;
     while (true) {
@@ -67,6 +70,7 @@ inline int getValidatedIntInput() {
     return input;
 }
 
+// Function to get validated double input from user
 inline double getValidatedDoubleInput() {
     double input;
     while (true) {
@@ -81,7 +85,7 @@ inline double getValidatedDoubleInput() {
     return input;
 }
 
-inline std::string getValidatedDateInput() {
+inline std::string getValidatedDateInput() {// Function to get validated date input from user
     std::string date;
     std::regex dateRegex(R"(\d{4}-\d{2}-\d{2})");
     while (true) {
@@ -114,10 +118,10 @@ inline std::string getValidatedDateInput() {
     return date;
 }
 
-inline std::string getValidatedTimeInput() {
+inline std::string getValidatedTimeInput() { // Function to get validated time input from user
     std::string time;
     std::regex timeRegex(R"(\d{2}:\d{2})");
-    while (true) {
+    while (true) { // Repeat until valid time input is received
         std::getline(std::cin, time);
         if (std::regex_match(time, timeRegex)) {
             break;
@@ -127,16 +131,16 @@ inline std::string getValidatedTimeInput() {
     return time;
 }
 
-inline long long getValidatedLongLongIntInput() {
+inline long long getValidatedLongLongIntInput() {// Function to get validated long long integer input from user
     long long input;
-    while (true) {
+    while (true) {// Repeat until valid long long integer input is received
         std::cin >> input;
         if (!std::cin.fail()) {
             clearInputStream();
             break;
         }
         clearInputStream();
-        std::cout << "Invalid input. Please enter a valid number: ";
+        std::cout << "Invalid input. Please enter a valid number: "; // Clear input stream to remove invalid characters
     }
     return input;
 }
