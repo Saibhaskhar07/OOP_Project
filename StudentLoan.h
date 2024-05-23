@@ -4,11 +4,11 @@
 #include "Loan.h"
 #include <string>
 
-namespace bankeasy {
+namespace bankeasy { // Define namespace bankeasy
 
-class StudentLoan : public Loan {
+class StudentLoan : public Loan { // Define StudentLoan class inheriting from Loan
 public:
-    StudentLoan(double amount, int tenure, const std::string& course, const std::string& placeOfStudy);
+    StudentLoan(double amount, int tenure, const std::string& course, const std::string& placeOfStudy); // Constructor
     std::string getLoanType() const override;
     std::string getCourse() const;
     std::string getPlaceOfStudy() const;
