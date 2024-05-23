@@ -204,7 +204,7 @@ public:
     void run() { //Executes the entire program
         std::cout << "Welcome to BankEasy!\n\n";
         loading l1;
-        l1.print();
+        // l1.print();
         Accounts* accounts = loadAccounts();
 
         Admin admin("Admin", "admin@bankeasy.com", "adminpass");

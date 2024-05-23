@@ -27,7 +27,7 @@ void loading::print()
     int sec = 150;
 
     std::string array[] = {"◴", "◷", "◶", "◵"};
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 4; ++j) {
             clearScreen();
             std::cout << array[j] << " Loading.." << std::endl;

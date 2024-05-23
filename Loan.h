@@ -5,7 +5,7 @@
 
 namespace bankeasy { // start of namespace bankeasy
 
-class Loan : public Personal{
+class Loan {
 public:
     Loan(double amount, int tenure);
     virtual ~Loan() = default; // Constructor initializes with given loan information
