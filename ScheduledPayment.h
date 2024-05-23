@@ -3,12 +3,12 @@
 
 #include <string>
 
-namespace bankeasy {
+namespace bankeasy { // Define namespace bankeas
 
-struct ScheduledPayment {
-    std::string purpose;
-    double amount;
-    std::string frequency;
+struct ScheduledPayment { // Define ScheduledPayment structure
+    std::string purpose; // Purpose for the scheduled payments
+    double amount; // Amount of scheduled payment
+    std::string frequency; // Frequency/how often to pay it
 };
 
 } // namespace bankeasy
